@@ -1,7 +1,7 @@
 /*******************************************************************************
 
-    µMatrix - a Chromium browser extension to black/white list requests.
-    Copyright (C) 2013  Raymond Hill
+    uMatrix - a browser extension to black/white list requests.
+    Copyright (C) 2013-2018 Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,574 +19,248 @@
     Home: https://github.com/gorhill/uMatrix
 */
 
-/* global chrome, µMatrix */
-/* jshint bitwise: false */
-
-/*******************************************************************************
-
-A PageRequestStore object is used to store net requests in two ways:
-
-To record distinct net requests
-To create a log of net requests
-
-**/
-
-µMatrix.PageRequestStats = (function() {
+'use strict';
 
 /******************************************************************************/
 
-// Caching useful global vars
-
-var µm = µMatrix;
-var µmuri = null;
+µMatrix.pageStoreFactory = (( ) => {
 
 /******************************************************************************/
 
-// Hidden vars
-
-var typeToCode = {
-    'doc'   : 'a',
-    'frame' : 'b',
-    'css'   : 'c',
-    'script': 'd',
-    'image' : 'e',
-    'plugin': 'f',
-    'xhr'   : 'g',
-    'other' : 'h',
-    'cookie': 'i'
-};
-
-var codeToType = {
-    'a': 'doc',
-    'b': 'frame',
-    'c': 'css',
-    'd': 'script',
-    'e': 'image',
-    'f': 'plugin',
-    'g': 'xhr',
-    'h': 'other',
-    'i': 'cookie'
-};
+const µm = µMatrix;
 
 /******************************************************************************/
 
-// It's just a dict-based "packer"
+const BlockedCollapsibles = class {
+    constructor() {
+        this.boundPruneAsyncCallback = this.pruneAsyncCallback.bind(this);
+        this.blocked = new Map();
+        this.hash = 0;
+        this.timer = null;
+        this.tOrigin = Date.now();
+    }
 
-var stringPacker = {
-    codeGenerator: 1,
-    codeJunkyard: [],
-    mapStringToEntry: {},
-    mapCodeToString: {},
-
-    Entry: function(code) {
-        this.count = 0;
-        this.code = code;
-    },
-
-    remember: function(code) {
-        if ( code === '' ) {
-            return;
+    add(type, url, isSpecific) {
+        if ( this.blocked.size === 0 ) { this.pruneAsync(); }
+        let tStamp = Date.now() - this.tOrigin;
+        // The following "trick" is to encode the specifity into the lsb of the
+        // time stamp so as to avoid to have to allocate a memory structure to
+        // store both time stamp and specificity.
+        if ( isSpecific ) {
+            tStamp |= 1;
+        } else {
+            tStamp &= ~1;
         }
-        var s = this.mapCodeToString[code];
-        if ( s ) {
-            var entry = this.mapStringToEntry[s];
-            entry.count++;
-        }
-    },
+        this.blocked.set(type + ' ' + url, tStamp);
+        this.hash += 1;
+    }
 
-    forget: function(code) {
-        if ( code === '' ) {
-            return;
+    reset() {
+        this.blocked.clear();
+        this.hash = 0;
+        if ( this.timer !== null ) {
+            clearTimeout(this.timer);
+            this.timer = null;
         }
-        var s = this.mapCodeToString[code];
-        if ( s ) {
-            var entry = this.mapStringToEntry[s];
-            entry.count--;
-            if ( !entry.count ) {
-                // console.debug('stringPacker > releasing code "%s" (aka "%s")', code, s);
-                this.codeJunkyard.push(entry);
-                delete this.mapCodeToString[code];
-                delete this.mapStringToEntry[s];
+        this.tOrigin = Date.now();
+    }
+
+    pruneAsync() {
+        if ( this.timer === null ) {
+            this.timer = vAPI.setTimeout(
+                this.boundPruneAsyncCallback,
+                this.shelfLife * 2
+            );
+        }
+    }
+
+    pruneAsyncCallback() {
+        this.timer = null;
+        const tObsolete = Date.now() - this.tOrigin - this.shelfLife;
+        for ( const [ key, tStamp ] of this.blocked ) {
+            if ( tStamp <= tObsolete ) {
+                this.blocked.delete(key);
             }
         }
-    },
-
-    pack: function(s) {
-        var entry = this.entryFromString(s);
-        if ( !entry ) {
-            return '';
+        if ( this.blocked.size !== 0 ) {
+            this.pruneAsync();
+        } else {
+            this.tOrigin = Date.now();
         }
-        return entry.code;
-    },
+    }
+};
 
-    unpack: function(packed) {
-        return this.mapCodeToString[packed] || '';
-    },
+BlockedCollapsibles.prototype.shelfLife = 10 * 1000;
 
-    stringify: function(code) {
-        if ( code <= 0xFFFF ) {
-            return String.fromCharCode(code);
+/******************************************************************************/
+
+// Ref: Given a URL, returns a (somewhat) unique 32-bit value
+// Based on: FNV32a
+// http://www.isthe.com/chongo/tech/comp/fnv/index.html#FNV-reference-source
+// The rest is custom, suited for uMatrix.
+
+const PageStore = class {
+    constructor(tabContext) {
+        this.hostnameTypeCells = new Map();
+        this.domains = new Set();
+        this.blockedCollapsibles = new BlockedCollapsibles();
+        this.init(tabContext);
+    }
+
+    init(tabContext) {
+        this.tabId = tabContext.tabId;
+        this.rawURL = tabContext.rawURL;
+        this.pageUrl = tabContext.normalURL;
+        this.pageHostname = tabContext.rootHostname;
+        this.pageDomain =  tabContext.rootDomain;
+        this.title = '';
+        this.hostnameTypeCells.clear();
+        this.domains.clear();
+        this.allHostnamesString = ' ';
+        this.blockedCollapsibles.reset();
+        this.perLoadAllowedRequestCount = 0;
+        this.perLoadBlockedRequestCount = 0;
+        this.perLoadBlockedReferrerCount = 0;
+        this.has3pReferrer = false;
+        this.hasMixedContent = false;
+        this.hasNoscriptTags = false;
+        this.hasWebWorkers = false;
+        this.hasHostnameAliases = false;
+        this.incinerationTimer = null;
+        this.mtxContentModifiedTime = 0;
+        this.mtxCountModifiedTime = 0;
+        return this;
+    }
+
+    dispose() {
+        this.tabId = '';
+        this.rawURL = '';
+        this.pageUrl = '';
+        this.pageHostname = '';
+        this.pageDomain = '';
+        this.title = '';
+        this.hostnameTypeCells.clear();
+        this.domains.clear();
+        this.allHostnamesString = ' ';
+        this.blockedCollapsibles.reset();
+        if ( this.incinerationTimer !== null ) {
+            clearTimeout(this.incinerationTimer);
+            this.incinerationTimer = null;
         }
-        return String.fromCharCode(code >>> 16) + String.fromCharCode(code & 0xFFFF);
-    },
-
-    entryFromString: function(s) {
-        if ( s === '' ) {
-            return null;
+        if ( this.pageStoreJunkyard.length < 8 ) {
+            this.pageStoreJunkyard.push(this);
         }
-        var entry = this.mapStringToEntry[s];
-        if ( !entry ) {
-            entry = this.codeJunkyard.pop();
-            if ( !entry ) {
-                entry = new this.Entry(this.stringify(this.codeGenerator++));
-            } else {
-                // console.debug('stringPacker > recycling code "%s" (aka "%s")', entry.code, s);
-                entry.count = 0;
+    }
+
+    cacheBlockedCollapsible(type, url, specificity) {
+        if ( this.collapsibleTypes.has(type) ) {
+            this.blockedCollapsibles.add(
+                type,
+                url,
+                specificity !== 0 && specificity < 5
+            );
+        }
+    }
+
+    lookupBlockedCollapsibles(request, response) {
+        const tabContext = µm.tabContextManager.lookup(this.tabId);
+        if ( tabContext === null ) { return; }
+
+        if (
+            Array.isArray(request.toFilter) &&
+            request.toFilter.length !== 0
+        ) {
+            const roothn = tabContext.rootHostname;
+            const hnFromURI = vAPI.hostnameFromURI;
+            const tMatrix = µm.tMatrix;
+            for ( const entry of request.toFilter ) {
+                if ( tMatrix.mustBlock(roothn, hnFromURI(entry.url), entry.type) ) {
+                    this.blockedCollapsibles.add(
+                        entry.type,
+                        entry.url,
+                        tMatrix.specificityRegister < 5
+                    );
+                }
             }
-            this.mapStringToEntry[s] = entry;
-            this.mapCodeToString[entry.code] = s;
         }
-        return entry;
+
+        if ( this.blockedCollapsibles.hash === response.hash ) { return; }
+        response.hash = this.blockedCollapsibles.hash;
+
+        const collapseBlacklisted = µm.userSettings.collapseBlacklisted;
+        const collapseBlocked = µm.userSettings.collapseBlocked;
+        const blockedResources = response.blockedResources;
+
+        for ( const entry of this.blockedCollapsibles.blocked ) {
+            blockedResources.push([
+                entry[0],
+                collapseBlocked || collapseBlacklisted && (entry[1] & 1) !== 0
+            ]);
+        }
+    }
+
+    recordRequest(type, url, block) {
+        if ( this.tabId <= 0 ) { return; }
+
+        if ( block ) {
+            this.perLoadBlockedRequestCount++;
+        } else {
+            this.perLoadAllowedRequestCount++;
+        }
+
+        // Store distinct network requests. This is used to:
+        // - remember which hostname/type were seen
+        // - count the number of distinct URLs for any given
+        //   hostname-type pair
+        const hostname = vAPI.hostnameFromURI(url);
+        const key = hostname + ' ' + type;
+        let uids = this.hostnameTypeCells.get(key);
+        if ( uids === undefined ) {
+            this.hostnameTypeCells.set(key, (uids = new Set()));
+        } else if ( uids.size > 99 ) {
+            return;
+        }
+        const uid = this.uidFromURL(url);
+        if ( uids.has(uid) ) { return; }
+        uids.add(uid);
+
+        µm.updateToolbarIcon(this.tabId);
+
+        this.mtxCountModifiedTime = Date.now();
+
+        if ( this.domains.has(hostname) === false ) {
+            this.domains.add(hostname);
+            this.allHostnamesString += hostname + ' ';
+            this.mtxContentModifiedTime = Date.now();
+        }
+    }
+
+    uidFromURL(uri) {
+        let hint = 0x811c9dc5;
+        let i = uri.length;
+        while ( i-- ) {
+            hint ^= uri.charCodeAt(i);
+            hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
+            hint >>>= 0;
+        }
+        return hint;
     }
 };
+
+PageStore.prototype.collapsibleTypes = new Set([ 'image' ]);
+PageStore.prototype.pageStoreJunkyard = [];
 
 /******************************************************************************/
 
-var LogEntry = function() {
-    this.url = '';
-    this.type = '';
-    this.when = 0;
-    this.block = false;
-};
-
-var logEntryJunkyard = [];
-
-LogEntry.prototype.dispose = function() {
-    this.url = this.type = '';
-    // Let's not grab and hold onto too much memory..
-    if ( logEntryJunkyard.length < 200 ) {
-        logEntryJunkyard.push(this);
-    }
-};
-
-var logEntryFactory = function() {
-    var entry = logEntryJunkyard.pop();
+return function pageStoreFactory(tabContext) {
+    const entry = PageStore.prototype.pageStoreJunkyard.pop();
     if ( entry ) {
-        return entry;
+        return entry.init(tabContext);
     }
-    return new LogEntry();
+    return new PageStore(tabContext);
 };
 
 /******************************************************************************/
-
-var PageRequestStats = function() {
-    this.requests = {};
-    this.ringBuffer = null;
-    this.ringBufferPointer = 0;
-    if ( !µmuri ) {
-        µmuri = µm.URI;
-    }
-};
-
-/******************************************************************************/
-
-PageRequestStats.prototype.init = function() {
-    return this;
-};
-
-/******************************************************************************/
-
-var pageRequestStoreJunkyard = [];
-
-var pageRequestStoreFactory = function() {
-    var pageRequestStore = pageRequestStoreJunkyard.pop();
-    if ( pageRequestStore ) {
-        pageRequestStore.init();
-    } else {
-        pageRequestStore = new PageRequestStats();
-    }
-    pageRequestStore.resizeLogBuffer(µm.userSettings.maxLoggedRequests);
-    return pageRequestStore;
-};
-
-/******************************************************************************/
-
-PageRequestStats.prototype.disposeOne = function(reqKey) {
-    if ( this.requests[reqKey] ) {
-        delete this.requests[reqKey];
-        forgetRequestKey(reqKey);
-    }
-};
-
-/******************************************************************************/
-
-PageRequestStats.prototype.dispose = function() {
-    var requests = this.requests;
-    for ( var reqKey in requests ) {
-        if ( requests.hasOwnProperty(reqKey) === false ) {
-            continue;
-        }
-        stringPacker.forget(reqKey.slice(3));
-    }
-    this.requests = {};
-    var i = this.ringBuffer.length;
-    var logEntry;
-    while ( i-- ) {
-        logEntry = this.ringBuffer[i];
-        if ( logEntry ) {
-            logEntry.dispose();
-        }
-    }
-    this.ringBuffer = [];
-    this.ringBufferPointer = 0;
-    if ( pageRequestStoreJunkyard.length < 8 ) {
-        pageRequestStoreJunkyard.push(this);
-    }
-};
-
-/******************************************************************************/
-
-// Request key:
-// index: 0123
-//        THHN
-//        ^^ ^
-//        || |
-//        || +--- short string code for hostname (dict-based)
-//        |+--- FNV32a hash of whole URI (irreversible)
-//        +--- single char code for type of request
-
-var makeRequestKey = function(uri, reqType) {
-    // Ref: Given a URL, returns a unique 4-character long hash string
-    // Based on: FNV32a
-    // http://www.isthe.com/chongo/tech/comp/fnv/index.html#FNV-reference-source
-    // The rest is custom, suited for µMatrix.
-    var hint = 0x811c9dc5;
-    var i = uri.length;
-    while ( i-- ) {
-        hint ^= uri.charCodeAt(i);
-        hint += (hint<<1) + (hint<<4) + (hint<<7) + (hint<<8) + (hint<<24);
-        hint >>>= 0;
-    }
-    var key  = typeToCode[reqType] || 'z';
-    return key +
-           String.fromCharCode(hint >>> 22, hint >>> 12 & 0x3FF, hint & 0xFFF) +
-           stringPacker.pack(µmuri.hostnameFromURI(uri));
-};
-
-/******************************************************************************/
-
-var rememberRequestKey = function(reqKey) {
-    stringPacker.remember(reqKey.slice(4));
-};
-
-var forgetRequestKey = function(reqKey) {
-    stringPacker.forget(reqKey.slice(4));
-};
-
-/******************************************************************************/
-
-// Exported
-
-var hostnameFromRequestKey = function(reqKey) {
-    return stringPacker.unpack(reqKey.slice(4));
-};
-
-PageRequestStats.prototype.hostnameFromRequestKey = hostnameFromRequestKey;
-
-var typeFromRequestKey = function(reqKey) {
-    return codeToType[reqKey.charAt(0)];
-};
-
-PageRequestStats.prototype.typeFromRequestKey = typeFromRequestKey;
-
-/******************************************************************************/
-
-PageRequestStats.prototype.createEntryIfNotExists = function(url, type) {
-    var reqKey = makeRequestKey(url, type);
-    if ( this.requests[reqKey] ) {
-        return false;
-    }
-    rememberRequestKey(reqKey);
-    this.requests[reqKey] = Date.now();
-    return true;
-};
-
-/******************************************************************************/
-
-PageRequestStats.prototype.resizeLogBuffer = function(size) {
-    if ( !this.ringBuffer ) {
-        this.ringBuffer = new Array(0);
-        this.ringBufferPointer = 0;
-    }
-    if ( size === this.ringBuffer.length ) {
-        return;
-    }
-    if ( !size ) {
-        this.ringBuffer = new Array(0);
-        this.ringBufferPointer = 0;
-        return;
-    }
-    var newBuffer = new Array(size);
-    var copySize = Math.min(size, this.ringBuffer.length);
-    var newBufferPointer = (copySize % size) | 0;
-    var isrc = this.ringBufferPointer;
-    var ides = newBufferPointer;
-    while ( copySize-- ) {
-        isrc--;
-        if ( isrc < 0 ) {
-            isrc = this.ringBuffer.length - 1;
-        }
-        ides--;
-        if ( ides < 0 ) {
-            ides = size - 1;
-        }
-        newBuffer[ides] = this.ringBuffer[isrc];
-    }
-    this.ringBuffer = newBuffer;
-    this.ringBufferPointer = newBufferPointer;
-};
-
-/******************************************************************************/
-
-PageRequestStats.prototype.clearLogBuffer = function() {
-    var buffer = this.ringBuffer;
-    if ( buffer === null ) {
-        return;
-    }
-    var logEntry;
-    var i = buffer.length;
-    while ( i-- ) {
-        if ( logEntry = buffer[i] ) {
-            logEntry.dispose();
-            buffer[i] = null;
-        }
-    }
-    this.ringBufferPointer = 0;
-};
-
-/******************************************************************************/
-
-PageRequestStats.prototype.logRequest = function(url, type, block) {
-    var buffer = this.ringBuffer;
-    var len = buffer.length;
-    if ( !len ) {
-        return;
-    }
-    var pointer = this.ringBufferPointer;
-    if ( !buffer[pointer] ) {
-        buffer[pointer] = logEntryFactory();
-    }
-    var logEntry = buffer[pointer];
-    logEntry.url = url;
-    logEntry.type = type;
-    logEntry.when = Date.now();
-    logEntry.block = block;
-    this.ringBufferPointer = ((pointer + 1) % len) | 0;
-};
-
-/******************************************************************************/
-
-PageRequestStats.prototype.getLoggedRequests = function() {
-    var buffer = this.ringBuffer;
-    if ( !buffer.length ) {
-        return [];
-    }
-    // [0 - pointer] = most recent
-    // [pointer - length] = least recent
-    // thus, ascending order:
-    //   [pointer - length] + [0 - pointer]
-    var pointer = this.ringBufferPointer;
-    return buffer.slice(pointer).concat(buffer.slice(0, pointer)).reverse();
-};
-
-/******************************************************************************/
-
-PageRequestStats.prototype.getLoggedRequestEntry = function(reqURL, reqType) {
-    return this.requests[makeRequestKey(reqURL, reqType)];
-};
-
-/******************************************************************************/
-
-PageRequestStats.prototype.getRequestKeys = function() {
-    return Object.keys(this.requests);
-};
-
-/******************************************************************************/
-
-PageRequestStats.prototype.getRequestDict = function() {
-    return this.requests;
-};
-
-/******************************************************************************/
-
-// Export
-
-return {
-    factory: pageRequestStoreFactory,
-    hostnameFromRequestKey: hostnameFromRequestKey,
-    typeFromRequestKey: typeFromRequestKey
-};
-
-/******************************************************************************/
-
-})();
-
-/******************************************************************************/
-/******************************************************************************/
-
-µMatrix.PageStore = (function() {
-
-/******************************************************************************/
-
-var µm = µMatrix;
-var pageStoreJunkyard = [];
-
-/******************************************************************************/
-
-var pageStoreFactory = function(pageUrl) {
-    var entry = pageStoreJunkyard.pop();
-    if ( entry ) {
-        return entry.init(pageUrl);
-    }
-    return new PageStore(pageUrl);
-};
-
-/******************************************************************************/
-
-function PageStore(pageUrl) {
-    this.requestStats = new WebRequestStats();
-    this.off = false;
-    this.init(pageUrl);
-}
-
-/******************************************************************************/
-
-PageStore.prototype.init = function(pageUrl) {
-    this.pageUrl = pageUrl;
-    this.pageHostname = µm.URI.hostnameFromURI(pageUrl);
-    this.pageDomain =  µm.URI.domainFromHostname(this.pageHostname) || this.pageHostname;
-    this.pageScriptBlocked = false;
-    this.thirdpartyScript = false;
-    this.requests = µm.PageRequestStats.factory();
-    this.domains = {};
-    this.allHostnamesString = ' ';
-    this.state = {};
-    this.requestStats.reset();
-    this.distinctRequestCount = 0;
-    this.perLoadAllowedRequestCount = 0;
-    this.perLoadBlockedRequestCount = 0;
-    this.boundCount = 0;
-    this.obsoleteAfter = 0;
-    return this;
-};
-
-/******************************************************************************/
-
-PageStore.prototype.dispose = function() {
-    this.requests.dispose();
-    this.pageUrl = '';
-    this.pageHostname = '';
-    this.pageDomain = '';
-    this.domains = {};
-    this.allHostnamesString = ' ';
-    this.state = {};
-    if ( pageStoreJunkyard.length < 8 ) {
-        pageStoreJunkyard.push(this);
-    }
-};
-
-/******************************************************************************/
-
-PageStore.prototype.recordRequest = function(type, url, block) {
-    // TODO: this makes no sense, I forgot why I put this here.
-    if ( !this ) {
-        // console.error('pagestats.js > PageStore.recordRequest(): no pageStats');
-        return;
-    }
-
-    // rhill 2013-10-26: This needs to be called even if the request is
-    // already logged, since the request stats are cached for a while after
-    // the page is no longer visible in a browser tab.
-    µm.updateBadgeAsync(this.pageUrl);
-
-    // Count blocked/allowed requests
-    this.requestStats.record(type, block);
-
-    // https://github.com/gorhill/httpswitchboard/issues/306
-    // If it is recorded locally, record globally
-    µm.requestStats.record(type, block);
-
-    if ( block !== false ) {
-        this.perLoadBlockedRequestCount++;
-    } else {
-        this.perLoadAllowedRequestCount++;
-    }
-
-    this.requests.logRequest(url, type, block);
-
-    if ( !this.requests.createEntryIfNotExists(url, type, block) ) {
-        return;
-    }
-
-    var hostname = µm.URI.hostnameFromURI(url);
-
-    // https://github.com/gorhill/httpswitchboard/issues/181
-    if ( type === 'script' && hostname !== this.pageHostname ) {
-        this.thirdpartyScript = true;
-    }
-
-    // rhill 2013-12-24: put blocked requests in dict on the fly, since
-    // doing it only at one point after the page has loaded completely will
-    // result in unnecessary reloads (because requests can be made *after*
-    // the page load has completed).
-    // https://github.com/gorhill/httpswitchboard/issues/98
-    // rhill 2014-03-12: disregard blocking operations which do not originate
-    // from matrix evaluation, or else this can cause a useless reload of the
-    // page if something important was blocked through ABP filtering.
-    if ( block !== false ) {
-        this.state[type + '|' + hostname] = true;
-    }
-
-    this.distinctRequestCount++;
-    if ( this.domains.hasOwnProperty(hostname) === false ) {
-        this.domains[hostname] = true;
-        this.allHostnamesString += hostname + ' ';
-    }
-
-    µm.urlStatsChanged(this.pageUrl);
-    // console.debug("pagestats.js > PageStore.recordRequest(): %o: %s @ %s", this, type, url);
-};
-
-/******************************************************************************/
-
-// Update badge, incrementally
-
-// rhill 2013-11-09: well this sucks, I can't update icon/badge
-// incrementally, as chromium overwrite the icon at some point without
-// notifying me, and this causes internal cached state to be out of sync.
-
-PageStore.prototype.updateBadge = function(tabId) {
-    // Icon
-    var iconPath;
-    var badgeStr = '';
-    var total = this.perLoadAllowedRequestCount + this.perLoadBlockedRequestCount;
-    if ( total ) {
-        var squareSize = 19;
-        var greenSize = squareSize * Math.sqrt(this.perLoadAllowedRequestCount / total);
-        greenSize = greenSize < squareSize/2 ? Math.ceil(greenSize) : Math.floor(greenSize);
-        iconPath = 'img/browsericons/icon19-' + greenSize + '.png';
-        badgeStr = µm.formatCount(this.distinctRequestCount);
-    } else {
-        iconPath = 'img/browsericons/icon19.png';
-    }
-    µm.XAL.setIcon(tabId, iconPath, badgeStr);
-};
-
-/******************************************************************************/
-
-return {
-    factory: pageStoreFactory
-};
 
 })();
 

@@ -1,0 +1,866 @@
+{
+    "extName": {
+        "message": "uMatrix",
+        "description": ""
+    },
+    "extShortDesc": {
+        "message": "Tunjuk & klik untuk melarang/mengizinkan permintaan yang dibuat peramban anda. Gunakan untuk memblokir skrip, iframe, iklan, dll.",
+        "description": "this will be used as short description in web stores: MUST BE 132 characters OR LESS"
+    },
+    "dashboardPageName": {
+        "message": "uMatrix — Dasbor",
+        "description": ""
+    },
+    "loggerPageName": {
+        "message": "uMatrix — Pencatat Log",
+        "description": "Title for the logger window"
+    },
+    "settingsPageName": {
+        "message": "Pengaturan",
+        "description": "a tab in dashboard"
+    },
+    "privacyPageName": {
+        "message": "Privasi",
+        "description": "a tab in dashboard"
+    },
+    "statsPageName": {
+        "message": "Statistik",
+        "description": "a tab in dashboard"
+    },
+    "userRulesPageName": {
+        "message": "Aturan saya",
+        "description": "a tab in dashboard"
+    },
+    "ubiquitousRulesPageName": {
+        "message": "Aset",
+        "description": "a tab in dashboard"
+    },
+    "rawSettingsPageName": {
+        "message": "Lainnya",
+        "description": "a tab in dashboard"
+    },
+    "aboutPageName": {
+        "message": "Tentang",
+        "description": "a tab in dashboard"
+    },
+    "allPrettyName": {
+        "message": "semua",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "cookiePrettyName": {
+        "message": "kuki",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "cssPrettyName": {
+        "message": "css",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "imagePrettyName": {
+        "message": "gmbr",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "mediaPrettyName": {
+        "message": "media",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "pluginPrettyName": {
+        "message": "plugin",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "scriptPrettyName": {
+        "message": "skrip",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "fetchPrettyName": {
+        "message": "fetch",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "framePrettyName": {
+        "message": "frame",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "otherPrettyName": {
+        "message": "lain",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "matrixNoNetTrafficPrompt": {
+        "message": "Sejauh ini tidak terlihat lalu lintas jaringan untuk tab ini.",
+        "description": ""
+    },
+    "matrixLocalScopeTip": {
+        "message": "Pilih lingkup lokal untuk melihat/mambuat aturan yang diterapkan hanya pada lingkup tersebut",
+        "description": "Tool tip for the local scope button"
+    },
+    "matrixGlobalScopeTip": {
+        "message": "Pilih lingkup global untuk melihat/membuat aturan yang diterapkan ke semua situs",
+        "description": "Tool tip for the global scope button"
+    },
+    "matrixMtxButtonTip": {
+        "message": "Nonaktif/aktifkan penyaringan matriks untuk lingkup ini.",
+        "description": "Tool tip for matrix button"
+    },
+    "matrixPersistButtonTip": {
+        "message": "Simpan semua perubahan sementara untuk lingkup ini.",
+        "description": "Tool tip for the persist button"
+    },
+    "matrixRevertButtonTip": {
+        "message": "Kembalikan perubahan sementara untuk lingkup ini.",
+        "description": "Tool tip for the revert local permission button"
+    },
+    "matrixReloadButton": {
+        "message": "Muat ulang halaman.\nTekan Shift untuk untuk melewati tembolok peramban.",
+        "description": "Tool tip for the reload button"
+    },
+    "matrix1stPartyLabel": {
+        "message": "pihak pertama",
+        "description": "1st-party"
+    },
+    "matrixBlacklistedHostnames": {
+        "message": "{{count}} nama host dicekal",
+        "description": "Appears in the metadata row of bottom-most group: **mind the limited width**"
+    },
+    "matrixSwitchNoMixedContent": {
+        "message": "Larang konten campuran",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixSwitchNoWorker": {
+        "message": "Larang web worker",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixSwitchReferrerSpoof": {
+        "message": "Palsukan tajuk <code>Perujuk</code>",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixSwitchNoscriptSpoof": {
+        "message": "Palsukan tag <code><noscript></code>",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixSwitchRevealCname": {
+        "message": "Reveal canonical names",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixRevertAllEntry": {
+        "message": "Kembalikan semua ubahan sementara",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixLoggerMenuEntry": {
+        "message": "Kunjungi pencatat log",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixDashboardMenuEntry": {
+        "message": "Kunjungi dasbor",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixNoTabFound": {
+        "message": "Laman web tidak ditemukan",
+        "description": "Displays in place of matrix when no data is found for the current page"
+    },
+    "matrixRecipeImportTip": {
+        "message": "Impor aturan",
+        "description": "Used as a tooltip for the recipe import button"
+    },
+    "matrixRecipeSaveTip": {
+        "message": "Simpan aturan",
+        "description": "Used as a tooltip for the recipe padlock button"
+    },
+    "statsPageTitle": {
+        "message": "uMatrix &ndash; Statistik",
+        "description": ""
+    },
+    "statsPageGenericStats": {
+        "message": "Statistik umum",
+        "description": ""
+    },
+    "statsPageCookieHeadersFoiled": {
+        "message": "Tajuk <a href='https://id.wikipedia.org/wiki/Kuki_HTTP'>kuki HTTP</a> digagalkan: {{count}}",
+        "description": ""
+    },
+    "statsPageRefererHeadersFoiled": {
+        "message": "Tajuk <a href='https://en.wikipedia.org/wiki/HTTP_referer'>perujuk HTTP</a> digagalkan: {{count}}",
+        "description": ""
+    },
+    "statsPageHyperlinkAuditingFoiled": {
+        "message": "Percobaan <a href='https://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing'>pengauditan pranala</a> digagalkan: {{count}}",
+        "description": ""
+    },
+    "statsPageCookiesRemoved": {
+        "message": "Kuki lokal dibuang: {{count}}",
+        "description": ""
+    },
+    "statsPageLocalStoragesCleared": {
+        "message": "<a href='http://diveintohtml5.info/storage.html'>Penyimpanan lokal</a> dikosongkan: {{count}}",
+        "description": ""
+    },
+    "statsPageBrowserCacheCleared": {
+        "message": "Tembolok peramban dibersihkan: {{count}}",
+        "description": ""
+    },
+    "statsPageDetailedStats": {
+        "message": "Statistik detail",
+        "description": ""
+    },
+    "statsPageDetailedAllPages": {
+        "message": "Semua",
+        "description": ""
+    },
+    "statsPageDetailedBehindTheScenePage": {
+        "message": "Di balik layar",
+        "description": ""
+    },
+    "statsPageOverview": {
+        "message": "Tinjauan",
+        "description": ""
+    },
+    "statsPageRequests": {
+        "message": "Permintaan",
+        "description": "header for the stat type column"
+    },
+    "statsPageAllowed": {
+        "message": "Diizinkan",
+        "description": "header for the allowed requests column"
+    },
+    "statsPageBlocked": {
+        "message": "Diblokir",
+        "description": "header for the blocked requests column"
+    },
+    "statsPageAll": {
+        "message": "Semua",
+        "description": ""
+    },
+    "statsPagePages": {
+        "message": "Halaman",
+        "description": ""
+    },
+    "statsPageCookies": {
+        "message": "Kuki",
+        "description": ""
+    },
+    "statsPageCSS": {
+        "message": "CSS",
+        "description": ""
+    },
+    "statsPageImages": {
+        "message": "Gambar",
+        "description": ""
+    },
+    "statsPagePlugins": {
+        "message": "Plugin",
+        "description": ""
+    },
+    "statsPageScripts": {
+        "message": "Skrip",
+        "description": ""
+    },
+    "statsPageXHRs": {
+        "message": "XHR",
+        "description": ""
+    },
+    "statsPageFrames": {
+        "message": "Frame",
+        "description": ""
+    },
+    "statsPageOthers": {
+        "message": "Lainnya",
+        "description": ""
+    },
+    "statsPageDetailed": {
+        "message": "Pencatat Log",
+        "description": ""
+    },
+    "statsPageLogSizePrompt1": {
+        "message": "Ingat",
+        "description": "First part of Remember the last [n] HTTP requests per page"
+    },
+    "statsPageLogSizePrompt2": {
+        "message": "permintaan HTTP terakhir <b>per halaman</b>.",
+        "description": "Second part of Remember the last [n] HTTP requests per page"
+    },
+    "statsPageLogSizeHelp": {
+        "message": "<p>Anda dapat memeriksa rincian terkini permintaan mentah HTTP yang telah dibuat oleh halaman web (lihat di bawah).</p><p>Hal ini sangat berguna bagi para pengguna tingkat lanjut yang ingin menyelidiki secara pasti apa yang halaman web telah lakukan. Akan tetapi, mencatat permintaan HTTP ini memerlukan tambahan memori, dan jika anda tidak peduli tentang informasi teknis ini, maka memori terbuang dengan percuma.</p><p>Oleh karena itu, ruas ini memungkinkan anda mengatur jumlah maksimum permintaan HTTP terkini yang akan dicatat untuk pemeriksaan lebih lanjut.</p><p>Masukkan &ldquo;<code>0</code>&rdquo; untuk mematikan pencatatan terperinci (dan berarti berkurangnya penggunaan memori <i>uMatrix</i>).</p>",
+        "description": "To help user understand the purpose of the log size value"
+    },
+    "statsPageRefresh": {
+        "message": "Segarkan",
+        "description": ""
+    },
+    "logAll": {
+        "message": "All",
+        "description": "Appears in the logger's tab selector"
+    },
+    "logBehindTheScene": {
+        "message": "Tabless",
+        "description": "Pretty name for behind-the-scene network requests"
+    },
+    "loggerCurrentTab": {
+        "message": "Current tab",
+        "description": "Appears in the logger's tab selector"
+    },
+    "loggerReloadTip": {
+        "message": "Reload the tab content",
+        "description": "Tooltip for the reload button in the logger page"
+    },
+    "loggerFilterInputPlaceholder": {
+        "message": "ekspresi penyaring",
+        "description": "Appears in the input filed where filter expressions are entered"
+    },
+    "loggerEntryCookieDeleted": {
+        "message": "kuki dihapus: {{value}}",
+        "description": "An entry for when a cookie is deleted"
+    },
+    "loggerEntryDeleteCookieError": {
+        "message": "gagal menghapus kuki: {{value}}",
+        "description": "An entry for when the browser cache is cleared"
+    },
+    "loggerEntryBrowserCacheCleared": {
+        "message": "tembolok peramban dibersihkan",
+        "description": "An entry for when a cookie can't be deleted"
+    },
+    "loggerEntryAssetUpdated": {
+        "message": "aset diperbarui: {{value}}",
+        "description": "An entry for when an asset was updated"
+    },
+    "loggerRowFiltererButtonTip": {
+        "message": "Toggle logger filtering",
+        "description": "Tooltip for the row filterer button in the logger page"
+    },
+    "logFilterPrompt": {
+        "message": "filter logger content",
+        "description": "Placeholder string for logger output filtering input field"
+    },
+    "loggerPopupPanelTip": {
+        "message": "Toggle the popup panel",
+        "description": "Tooltip for the popup panel button in the logger page"
+    },
+    "loggerInfoTip": {
+        "message": "uBlock Origin wiki: The logger",
+        "description": "Tooltip for the top-right info label in the logger page"
+    },
+    "loggerClearTip": {
+        "message": "Clear logger",
+        "description": "Tooltip for the eraser in the logger page; used to blank the content of the logger"
+    },
+    "loggerPauseTip": {
+        "message": "Pause logger (discard all incoming data)",
+        "description": "Tooltip for the pause button in the logger page"
+    },
+    "loggerUnpauseTip": {
+        "message": "Unpause logger",
+        "description": "Tooltip for the play button in the logger page"
+    },
+    "loggerRowFiltererBuiltinTip": {
+        "message": "Logger filtering options",
+        "description": "Tooltip for the button to bring up logger output filtering options"
+    },
+    "loggerRowFiltererBuiltinNot": {
+        "message": "Not",
+        "description": "A keyword in the built-in row filtering expression"
+    },
+    "loggerRowFiltererBuiltinBlocked": {
+        "message": "blocked",
+        "description": "A keyword in the built-in row filtering expression"
+    },
+    "loggerRowFiltererBuiltinInfo": {
+        "message": "info",
+        "description": "A keyword in the built-in row filtering expression"
+    },
+    "loggerRowFiltererBuiltin1p": {
+        "message": "1st-party",
+        "description": "A keyword in the built-in row filtering expression"
+    },
+    "loggerRowFiltererBuiltin3p": {
+        "message": "3rd-party",
+        "description": "A keyword in the built-in row filtering expression"
+    },
+    "loggerEntryDetailsHeader": {
+        "message": "Details",
+        "description": "Small header to identify the 'Details' pane for a specific logger entry"
+    },
+    "loggerEntryDetailsContext": {
+        "message": "Context",
+        "description": "Label to identify a context field (typically a hostname)"
+    },
+    "loggerEntryDetailsPartyness": {
+        "message": "Partyness",
+        "description": "Label to identify a field providing partyness information"
+    },
+    "loggerEntryDetailsType": {
+        "message": "Type",
+        "description": "Label to identify the type of an entry"
+    },
+    "loggerEntryDetailsURL": {
+        "message": "URL",
+        "description": "Label to identify the URL of an entry"
+    },
+    "loggerEntryRuleHeader": {
+        "message": "Rule",
+        "description": "Small header to identify the 'Rule' pane for a specific logger entry"
+    },
+    "loggerSettingDiscardPrompt": {
+        "message": "Logger entries which do not fulfill all three conditions below will be automatically discarded:",
+        "description": "Logger setting: A sentence to describe the purpose of the settings below"
+    },
+    "loggerSettingPerEntryMaxAge": {
+        "message": "Preserve entries from the last {{input}} minutes",
+        "description": "A logger setting"
+    },
+    "loggerSettingPerTabMaxLoads": {
+        "message": "Preserve at most {{input}} page loads per tab",
+        "description": "A logger setting"
+    },
+    "loggerSettingPerTabMaxEntries": {
+        "message": "Preserve at most {{input}} entries per tab",
+        "description": "A logger setting"
+    },
+    "loggerSettingPerEntryLineCount": {
+        "message": "Use {{input}} lines per entry in vertically expanded mode",
+        "description": "A logger setting"
+    },
+    "loggerExportFormatList": {
+        "message": "List",
+        "description": "Label for radio-button to pick export format"
+    },
+    "loggerExportFormatTable": {
+        "message": "Table",
+        "description": "Label for radio-button to pick export format"
+    },
+    "loggerExportEncodePlain": {
+        "message": "Plain",
+        "description": "Label for radio-button to pick export text format"
+    },
+    "loggerExportEncodeMarkdown": {
+        "message": "Markdown",
+        "description": "Label for radio-button to pick export text format"
+    },
+    "settingsPageTitle": {
+        "message": "uMatrix &ndash; Pengaturan",
+        "description": ""
+    },
+    "settingsMatrixDisplayHeader": {
+        "message": "Matriks",
+        "description": "header for matrix settings used in Settings page"
+    },
+    "settingsMatrixDisplayTextSizePrompt": {
+        "message": "Ukuran teks:",
+        "description": ""
+    },
+    "settingsIconBadgeEnabled": {
+        "message": "Tampilkan jumlah permintaan yang diblokir pada ikon",
+        "description": ""
+    },
+    "settingsMatrixDisplayColorBlind": {
+        "message": "Ramah buta warna",
+        "description": ""
+    },
+    "settingsMatrixConvenienceHeader": {
+        "message": "Nyaman",
+        "description": "English: Convenience"
+    },
+    "settingsDefaultScopeLevel": {
+        "message": "Level cakupan bawaan:",
+        "description": "Label for default scope level selector in Settings pane"
+    },
+    "settingsDefaultScopeLevel0": {
+        "message": "Global",
+        "description": "Scope will be global"
+    },
+    "settingsDefaultScopeLevel1": {
+        "message": "Domain",
+        "description": "Scope will be base domain"
+    },
+    "settingsDefaultScopeLevel2": {
+        "message": "Situs",
+        "description": "Scope will be full hostname of site"
+    },
+    "settingsCollapseBlocked": {
+        "message": "Sembunyikan wadah elemen yang diblokir",
+        "description": "A setting in the dashboard's Settings pane"
+    },
+    "settingsCollapseBlacklisted": {
+        "message": "Sembunyikan wadah elemen terdaftar hitam",
+        "description": "A setting in the dashboard's Settings pane: 'blacklisted' means 'for which there is a specific block rule', 'specific' means 'a rule for which the destination hostname is not `*`'"
+    },
+    "settingsNoscriptTagsSpoofed": {
+        "message": "Palsukan tag <code><noscript></code> saat skrip pihak-pertama diblokir",
+        "description": "This appears in the Settings pane in the dashboard"
+    },
+    "settingsCloudStorageEnabled": {
+        "message": "Aktifkan dukungan penyimpanan awan",
+        "description": ""
+    },
+    "settingsMatrixNoTooltips": {
+        "message": "Nonaktifkan tooltip",
+        "description": ""
+    },
+    "privacyPageTitle": {
+        "message": "uMatrix &ndash; Privasi",
+        "description": ""
+    },
+    "privacyDeleteBlockedCookiesPrompt": {
+        "message": "Hapus kuki yang diblokir.",
+        "description": ""
+    },
+    "privacyDeleteBlockedCookiesHelp": {
+        "message": "<p>Kuki dalam daftar hitam tidak dicegah oleh <i>uMatrix</i> untuk masuk ke peramban anda. Namun mereka dicegah untuk meninggalkan peramban anda, dan itulah yang terpenting. Tidak memblokir kuki sebelum mereka masuk ke peramban anda memberikan anda kesempatan mendapatkan informasi bahwa situs tersebut mencoba untuk menggunakan kuki, dan lebih lanjut memeriksa isi kuki tersebut jika anda inginkan.</p><p>Setelah kuki dalam daftar hitam ini dicatat oleh <i>uMatrix</i>, mereka dapat dibuang dari peramban anda jika anda menginginkannya.</p><p><b>Catatan penting:</b> Ekstensi dapat membuat permintaan web selama operasi normal ekstensi berjalan. Permintaan ini dapat mengakibatkan beberapa kuki dibuat dalam peramban. Jika nama host dari mana kuki berasal tidak dalam daftar putih, kuki akan dibuang dari peramban oleh <i>uMatrix</i> jika opsi berikut dicentang. Jadi, pastikan nama host dengan yang ekstensi berkomunikasi masuk dalam daftar putih.</p>",
+        "description": ""
+    },
+    "privacyDeleteNonBlockedSessionCookiesPrompt1": {
+        "message": "Hapus kuki sesi yang tidak diblokir ",
+        "description": "First part of 'Delete non-blocked session cookies [n] minutes after the last time they have been used'"
+    },
+    "privacyDeleteNonBlockedSessionCookiesPrompt2": {
+        "message": " menit setelah terakhir kali mereka digunakan.",
+        "description": "Second part of 'Delete non-blocked session cookies [n] minutes after the last time they have been used'"
+    },
+    "privacyDeleteNonBlockedSessionCookiesHelp": {
+        "message": "<p><a href='http://www.w3.org/2001/tag/2010/09/ClientSideStorage.html'>W3C</a>: &ldquo;Kuki sesi ... dihapus ketika anda mengakhiri sesi peramban. Kuki sesi disimpan di dalam memori sementara dan tidak tinggal setelah peramban ditutup.&rdquo;</p><p>Kecuali hal tersebut <a href='https://code.google.com/p/chromium/issues/detail?id=128513'>mungkin tidak akan terjadi</a> pada beberapa peramban. Juga, bagi beberapa, menutup peramban agar kuki sesi dibersihkan mungkin tidak cukup cepat.</p>",
+        "description": ""
+    },
+    "privacyDeleteBlockedLocalStoragePrompt": {
+        "message": "Hapus muatan <a href='https://en.wikipedia.org/wiki/Web_storage'>penyimpanan lokal</a> yang disimpan oleh nama host yang diblokir",
+        "description": ""
+    },
+    "privacyDeleteBlockedLocalStorageHelp": {
+        "message": "TODO",
+        "description": ""
+    },
+    "privacyClearCachePrompt1": {
+        "message": "Bersihkan tembolok peramban setiap",
+        "description": "First part of 'Clear browser cache every [n] minutes'"
+    },
+    "privacyClearCachePrompt2": {
+        "message": "menit.",
+        "description": "Second part of 'Clear browser cache every [n] minutes'"
+    },
+    "privacyClearCacheHelp": {
+        "message": "<p>Beberapa situs sangat lihai dalam melacak anda, amat sangat lihai sampai-sampai mereka akan gunakan cara-cara yang tidak baik untuk menghindari apapun tindakan yang anda lakukan agar tidak dilacak.</p><p>Beberapa cara-cara ini mengandalkan<sup>[1, 2]</sup> <a href='https://en.wikipedia.org/wiki/Web_cache'>tembolok peramban</a>, yang muatannya terkadang bertahan lama karena jarang pengguna menyempatkan waktu secara berkala membersihkan tembolok peramban mereka.</p><p>Ada sedikit ketidaknyamanan untuk membersihkan tembolok peramban secara berkala (kemungkinan adalah anda tidak akan tahu ketika hal tersebut terjadi), dan keuntungannya adalah untuk mencegah pelacak yang menjengkelkan ini melanggar privasi anda.</p><p>Centang opsi berikut untuk membuat <i>uMatrix</i> melakukannya untuk anda, pada selang waktu yang anda inginkan.</p><p>[1] <a href='https://grepular.com/Preventing_Web_Tracking_via_the_Browser_Cache'>&ldquo;Mencegah Pelacakan Web melalui Tembolok Web&rdquo;</a>[2] <a href='http://lucb1e.com/rp/cookielesscookies/'>&ldquo;Kuki tanpa kuki&rdquo;</a></p>",
+        "description": ""
+    },
+    "privacyProcessRefererPrompt": {
+        "message": "Palsukan untai <a href='https://en.wikipedia.org/wiki/HTTP_referer'>perujuk HTTP</a> pada permintaan pihak ketiga.",
+        "description": ""
+    },
+    "privacyProcessRefererHelp": {
+        "message": "Dari Wikipedia:<blockquote>Perujuk HTTP adalah sebuah ruas tajuk HTTP yang mengidentifikasi alamat dari halaman web yang bertautan dengan sumber daya yang sedang diminta. ... <b>Karena informasi perujuk dapat melanggar privasi, beberapa peramban memperbolehkan pengguna untuk menonaktifkan pengiriman informasi perujuk.</b></blockquote>Jika aturan ini dicentang, <i>uMatrix</i> akan memalsukan informasi perujuk HTTP jika nama domain perujuk HTTP adalah pihak ketiga dari nama domain jaringan yang diminta.",
+        "description": ""
+    },
+    "privacyNoMixedContentPrompt": {
+        "message": "HTTPS Ketat: larang konten campuran.",
+        "description": ""
+    },
+    "privacyNoMixedContentHelp": {
+        "message": "<p>Dari <a href='https://developer.mozilla.org/id/docs/Security/MixedContent'>Jaringan Pengembang Mozilla</a>:</p><blockquote>Jika halaman HTTPS mengandung muatan yang diambil melalui HTTP umum / berteks jelas, maka koneksi hanya terenkripsi sebagian: muatan yang tidak terenkripsi tersedia bagi para pengendus jaringan dan dapat diubah oleh serangan orang-ditengah, dan oleh karena itu koneksi menjadi tidak lagi aman. Ketika halaman web memperlihatkan perilaku seperti ini, hal ini disebut &ldquo;halaman dengan muatan campuran tidak aman&rdquo;.</blockquote>",
+        "description": ""
+    },
+    "privacyProcessHyperlinkAuditingPrompt": {
+        "message": "Blokir semua percobaan <a href='https://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing'>pengauditan pranala</a>.",
+        "description": ""
+    },
+    "privacyProcessHyperlinkAuditingHelp": {
+        "message": "<p>Pengauditan pranala adalah mekanisme yang memperbolehkan satu pihak, <b>pihak manapun</b>, mendapatkan informasi tentang tautan mana yang pengguna klik pada halaman web tertentu. Hal ini pada dasarnya adalah fitur pelacakan: memperbolehkan sebuah situs web, atau pihak ketiga dari situs web tersebut, mendapatkan informasi tentang tautan mana di halaman yang mana yang anda klik pada situs web tersebut. Tujuannya adalah untuk melacak aktifitas penjelajahan anda.</p>",
+        "description": ""
+    },
+    "userRulesPermanentHeader": {
+        "message": "Aturan permanen",
+        "description": ""
+    },
+    "userRulesTemporaryHeader": {
+        "message": "Aturan sementara",
+        "description": ""
+    },
+    "userRulesRevert": {
+        "message": "Kembalikan",
+        "description": "Will remove all temporary rules"
+    },
+    "userRulesCommit": {
+        "message": "Tetapkan",
+        "description": "Will save all temporary rules"
+    },
+    "userRulesEdit": {
+        "message": "Sunting",
+        "description": "Will enable manual-edit mode (textarea)"
+    },
+    "userRulesEditSave": {
+        "message": "Simpan",
+        "description": "Will save manually-edited content and exit manual-edit mode"
+    },
+    "userRulesEditDicard": {
+        "message": "Batal",
+        "description": "Will discard manually-edited content and exit manual-edit mode"
+    },
+    "userRulesImport": {
+        "message": "Impor dari berkas...",
+        "description": ""
+    },
+    "userRulesExport": {
+        "message": "Ekspor ke berkas...",
+        "description": ""
+    },
+    "userRulesFormatHint": {
+        "message": "Lihat laman ini untuk aturan sintaksis.",
+        "description": ""
+    },
+    "userRulesDefaultFileName": {
+        "message": "my-umatrix-rules.txt",
+        "description": "default file name to use"
+    },
+    "assetsHostsSection": {
+        "message": "Berkas host",
+        "description": "header to identify the hosts files section"
+    },
+    "hostsFilesPrompt": {
+        "message": "Semua nama host di dalam berkas host dimuat sebagai nama host yang dicekal dalam lingkup global.",
+        "description": ""
+    },
+    "hostsFilesStats": {
+        "message": "{{blockedHostnameCount}} nama host yang berbeda diblokir dari:",
+        "description": ""
+    },
+    "hostsFilesPerFileStats": {
+        "message": "{{used}} digunakan dari {{total}}",
+        "description": ""
+    },
+    "hostsFilesLastUpdate": {
+        "message": "Terakhir diperbarui: {{ago}}",
+        "description": "English: Last update: {{ago}}, where 'ago' will be replaced with something like '2 days ago'"
+    },
+    "hostsFilesApplyChanges": {
+        "message": "Terapkan perubahan",
+        "description": ""
+    },
+    "hostsFilesAutoUpdatePrompt": {
+        "message": "Otomatis perbarui aset",
+        "description": ""
+    },
+    "hostsFilesUpdateNow": {
+        "message": "Perbarui sekarang",
+        "description": ""
+    },
+    "hostsFilesPurgeAll": {
+        "message": "Bersihkan semua tembolok",
+        "description": ""
+    },
+    "hostsFilesExternalListsHint": {
+        "message": "Satu URL per baris. Baris yang diawali dengan &lsquo;#&rsquo; akan diabaikan. URL yang tidak valid akan diabaikan tanpa peringatan.",
+        "description": ""
+    },
+    "hostsFilesExternalListsParse": {
+        "message": "Uraikan",
+        "description": ""
+    },
+    "hostsFilesExternalListPurge": {
+        "message": "bersihkan tembolok",
+        "description": ""
+    },
+    "hostsFilesExternalListNew": {
+        "message": "versi baru tersedia",
+        "description": ""
+    },
+    "hostsFilesExternalListObsolete": {
+        "message": "usang",
+        "description": ""
+    },
+    "assetsRecipesSection": {
+        "message": "Set aturan",
+        "description": "header to identify the ruleset files section"
+    },
+    "assetsRecipesSummary": {
+        "message": "Set aturan diimpor dari panel popup <em>atas permintaan</em> pengguna, mis. <b>hanya</b> melalui interaksi pengguna.",
+        "description": ""
+    },
+    "assetsImportLabel": {
+        "message": "Impor...",
+        "description": ""
+    },
+    "assetsInlineHostsLabel": {
+        "message": "Host saya",
+        "description": ""
+    },
+    "assetsInlineRecipesLabel": {
+        "message": "My recipes",
+        "description": ""
+    },
+    "rawSettingsWarning": {
+        "message": "Peringatan! Ubah konfigurasi mentah ini dengan risiko anda sendiri.",
+        "description": ""
+    },
+    "aboutChangelog": {
+        "message": "<a href='https://github.com/gorhill/uMatrix/releases'>Catatan perubahan</a>",
+        "description": ""
+    },
+    "aboutStorageUsed": {
+        "message": "Penyimpanan digunakan: {{storageUsed}} byte",
+        "description": ""
+    },
+    "aboutDoc": {
+        "message": "<a href='https://github.com/gorhill/uMatrix/wiki'>Dokumentasi</a>",
+        "description": ""
+    },
+    "aboutPermissions": {
+        "message": "<a href='https://github.com/gorhill/uMatrix/wiki/Permissions'>Perizinan</a>",
+        "description": ""
+    },
+    "aboutCode": {
+        "message": "Kode sumber (GPLv3)",
+        "description": ""
+    },
+    "aboutIssues": {
+        "message": "Pelacak masalah",
+        "description": "Text for a link to official issue tracker"
+    },
+    "aboutContributors": {
+        "message": "Kontributor",
+        "description": "English: Contributors"
+    },
+    "aboutCodeContributors": {
+        "message": "Kode:",
+        "description": ""
+    },
+    "aboutIssueContributors": {
+        "message": "Masalah:",
+        "description": ""
+    },
+    "aboutTranslationContributors": {
+        "message": "Transliterasi:",
+        "description": ""
+    },
+    "aboutUserDataHeader": {
+        "message": "Data anda",
+        "description": ""
+    },
+    "aboutBackupButton": {
+        "message": "Cadangkan ke berkas...",
+        "description": ""
+    },
+    "aboutBackupFilename": {
+        "message": "my-umatrix-backup.txt",
+        "description": "default filename to use"
+    },
+    "aboutRestoreButton": {
+        "message": "Pulihkan dari berkas...",
+        "description": ""
+    },
+    "aboutRestoreConfirm": {
+        "message": "Semua pengaturan anda akan ditimpa menggunakan data yang dicadangkan pada {{time}}, dan uMatrix akan memulai ulang.\n\nTimpa semua aturan yang ada menggunakan data yang dicadangkan?",
+        "description": "Message asking user to confirm restore"
+    },
+    "aboutRestoreError": {
+        "message": "Data tidak dapat dibaca atau tidak valid",
+        "description": ""
+    },
+    "aboutOr": {
+        "message": "... atau ...",
+        "description": "English: ... or ..."
+    },
+    "aboutResetButton": {
+        "message": "Kembalikan ke pengaturan bawaan",
+        "description": "English: Reset to default settings"
+    },
+    "aboutResetConfirm": {
+        "message": "Peringatan! ini akan membuang semua pengaturan tersesuai anda. Apakah anda yakin ingin melanjutkan?",
+        "description": "Message asking user to confirm reset"
+    },
+    "mainBlockedPrompt1": {
+        "message": "uMatrix telah mencegah laman berikut dimuat:",
+        "description": "English: uMatrix has prevented the following page from loading:"
+    },
+    "mainBlockedPrompt2": {
+        "message": "Disebabkan oleh aturan berikut",
+        "description": "English: Because of the following rule"
+    },
+    "mainBlockedNoParamsPrompt": {
+        "message": "tanpa parameter",
+        "description": "label to be used for the parameter-less URL: https://cloud.githubusercontent.com/assets/585534/9832014/bfb1b8f0-593b-11e5-8a27-fba472a5529a.png"
+    },
+    "mainBlockedBack": {
+        "message": "Kembali",
+        "description": "English: Go back"
+    },
+    "mainBlockedClose": {
+        "message": "Tutup",
+        "description": "English: Close"
+    },
+    "commandRevertAll": {
+        "message": "Kembalikan semua perubahan sementara",
+        "description": ""
+    },
+    "commandWhitelistPageDomain": {
+        "message": "Sementara daftar-putihkan domain laman",
+        "description": ""
+    },
+    "commandWhitelistAll": {
+        "message": "Sementara daftar-putihkan semua",
+        "description": ""
+    },
+    "commandOpenDashboard": {
+        "message": "Buka dasbor",
+        "description": ""
+    },
+    "elapsedOneMinuteAgo": {
+        "message": "semenit yang lalu",
+        "description": "English: a minute ago"
+    },
+    "elapsedManyMinutesAgo": {
+        "message": "{{value}} menit yang lalu",
+        "description": "English: {{value}} minutes ago"
+    },
+    "elapsedOneHourAgo": {
+        "message": "sejam yang lalu",
+        "description": "English: an hour ago"
+    },
+    "elapsedManyHoursAgo": {
+        "message": "{{value}} jam yang lalu",
+        "description": "English: {{value}} hours ago"
+    },
+    "elapsedOneDayAgo": {
+        "message": "sehari yang lalu",
+        "description": "English: a day ago"
+    },
+    "elapsedManyDaysAgo": {
+        "message": "{{value}} hari yang lalu",
+        "description": "English: {{value}} days ago"
+    },
+    "showDashboardButton": {
+        "message": "Dasbor",
+        "description": "Appears in Firefox's add-on preferences"
+    },
+    "showLoggerButton": {
+        "message": "Pencatat Log",
+        "description": "Appears in Firefox's add-on preferences"
+    },
+    "cloudPush": {
+        "message": "Ekspor ke penyimpanan awan",
+        "description": "tooltip"
+    },
+    "cloudPull": {
+        "message": "Impor dari penyimpanan awan",
+        "description": "tooltip"
+    },
+    "cloudNoData": {
+        "message": "...\n...",
+        "description": ""
+    },
+    "cloudDeviceNamePrompt": {
+        "message": "Nama perangkat ini:",
+        "description": "used as a prompt for the user to provide a custom device name"
+    },
+    "genericSubmit": {
+        "message": "Kirim",
+        "description": "for generic 'submit' buttons"
+    },
+    "genericRevert": {
+        "message": "Kembalikan",
+        "description": "for generic 'revert' buttons"
+    },
+    "errorCantConnectTo": {
+        "message": "Galat jaringan: Tidak bisa terhubung ke {{url}}",
+        "description": ""
+    },
+    "genericApplyChanges": {
+        "message": "Terapkan perubahan",
+        "description": "for generic 'Apply changes' buttons"
+    },
+    "genericCopyToClipboard": {
+        "message": "Copy to clipboard",
+        "description": "Label for buttons used to copy something to the clipboard"
+    }
+}

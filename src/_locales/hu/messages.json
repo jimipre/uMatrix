@@ -1,0 +1,866 @@
+{
+    "extName": {
+        "message": "uMatrix",
+        "description": ""
+    },
+    "extShortDesc": {
+        "message": "Tiltsd le, vagy engedélyezd egy kattintással a böngésző által létrehozott lekéréseket csoportosítva – szkriptek, iframe-ek, stb.",
+        "description": "this will be used as short description in web stores: MUST BE 132 characters OR LESS"
+    },
+    "dashboardPageName": {
+        "message": "uMatrix — Vezérlőpult",
+        "description": ""
+    },
+    "loggerPageName": {
+        "message": "uMatrix — Napló",
+        "description": "Title for the logger window"
+    },
+    "settingsPageName": {
+        "message": "Beállítások",
+        "description": "a tab in dashboard"
+    },
+    "privacyPageName": {
+        "message": "Adatvédelem",
+        "description": "a tab in dashboard"
+    },
+    "statsPageName": {
+        "message": "Statisztika",
+        "description": "a tab in dashboard"
+    },
+    "userRulesPageName": {
+        "message": "Saját szabályok",
+        "description": "a tab in dashboard"
+    },
+    "ubiquitousRulesPageName": {
+        "message": "Eszközök",
+        "description": "a tab in dashboard"
+    },
+    "rawSettingsPageName": {
+        "message": "Több",
+        "description": "a tab in dashboard"
+    },
+    "aboutPageName": {
+        "message": "Névjegy",
+        "description": "a tab in dashboard"
+    },
+    "allPrettyName": {
+        "message": "mind",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "cookiePrettyName": {
+        "message": "sütik",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "cssPrettyName": {
+        "message": "css",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "imagePrettyName": {
+        "message": "kép",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "mediaPrettyName": {
+        "message": "média",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "pluginPrettyName": {
+        "message": "bővítmény",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "scriptPrettyName": {
+        "message": "szkript",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "fetchPrettyName": {
+        "message": "fetch",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "framePrettyName": {
+        "message": "keret",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "otherPrettyName": {
+        "message": "egyéb",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "matrixNoNetTrafficPrompt": {
+        "message": "Eddig még nincs ehhez a laphoz tartozó adatátvitel.",
+        "description": ""
+    },
+    "matrixLocalScopeTip": {
+        "message": "Lokális hatáskör kiválasztásakor csak az abban érvényes szabályok láthatóak és módosíthatóak",
+        "description": "Tool tip for the local scope button"
+    },
+    "matrixGlobalScopeTip": {
+        "message": "A globális hatáskört választva azok a szabályok láthatóak és módosíthatóak, amik mindenhol érvényesek",
+        "description": "Tool tip for the global scope button"
+    },
+    "matrixMtxButtonTip": {
+        "message": "Mátrixszűrés engedélyezése/tiltása ebben a hatáskörben.",
+        "description": "Tool tip for matrix button"
+    },
+    "matrixPersistButtonTip": {
+        "message": "Minden ideiglenes változtatás mentése ebben a hatáskörben.",
+        "description": "Tool tip for the persist button"
+    },
+    "matrixRevertButtonTip": {
+        "message": "Ideiglenes változtatások visszavonása ebben a hatáskörben.",
+        "description": "Tool tip for the revert local permission button"
+    },
+    "matrixReloadButton": {
+        "message": "Oldal újratöltése.",
+        "description": "Tool tip for the reload button"
+    },
+    "matrix1stPartyLabel": {
+        "message": "Aktuális domain",
+        "description": "1st-party"
+    },
+    "matrixBlacklistedHostnames": {
+        "message": "{{count}} tiltott hostnév",
+        "description": "Appears in the metadata row of bottom-most group: **mind the limited width**"
+    },
+    "matrixSwitchNoMixedContent": {
+        "message": "Kevert tartalom tiltása",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixSwitchNoWorker": {
+        "message": "Web worker-ek tiltása",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixSwitchReferrerSpoof": {
+        "message": "<code>Referer</code> header hamisítása",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixSwitchNoscriptSpoof": {
+        "message": "<code><noscript></code> tagek felülírása",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixSwitchRevealCname": {
+        "message": "Reveal canonical names",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixRevertAllEntry": {
+        "message": "Minden ideiglenes változtatás visszavonása",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixLoggerMenuEntry": {
+        "message": "Napló megnyitása",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixDashboardMenuEntry": {
+        "message": "Irány a vezérlőpult",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixNoTabFound": {
+        "message": "Nem található weboldal",
+        "description": "Displays in place of matrix when no data is found for the current page"
+    },
+    "matrixRecipeImportTip": {
+        "message": "Szabályok importálása",
+        "description": "Used as a tooltip for the recipe import button"
+    },
+    "matrixRecipeSaveTip": {
+        "message": "Szabályok mentése",
+        "description": "Used as a tooltip for the recipe padlock button"
+    },
+    "statsPageTitle": {
+        "message": "uMatrix &ndash; Statisztika",
+        "description": ""
+    },
+    "statsPageGenericStats": {
+        "message": "Általános statisztikák",
+        "description": ""
+    },
+    "statsPageCookieHeadersFoiled": {
+        "message": "<a href='https://hu.wikipedia.org/wiki/HTTP_cookie'>HTTP süti</a> header-ek blokkolva: {{count}}",
+        "description": ""
+    },
+    "statsPageRefererHeadersFoiled": {
+        "message": "<a href='https://hu.wikipedia.org/wiki/HTTP_referer'>HTTP referer</a> header-ek blokkolva: {{count}}",
+        "description": ""
+    },
+    "statsPageHyperlinkAuditingFoiled": {
+        "message": "<a href='https://html.spec.whatwg.org/multipage/links.html#hyperlink-auditing'>Hiperlink-auditálási</a> kísérletek blokkolva: {{count}}",
+        "description": ""
+    },
+    "statsPageCookiesRemoved": {
+        "message": "{{count}} helyi süti eltávolítva",
+        "description": ""
+    },
+    "statsPageLocalStoragesCleared": {
+        "message": "<a href='http://diveintohtml5.info/storage.html'>Helyi tárolók</a> kiürítve: {{count}}",
+        "description": ""
+    },
+    "statsPageBrowserCacheCleared": {
+        "message": "Böngésző gyorsítótára törölve: {{count}}",
+        "description": ""
+    },
+    "statsPageDetailedStats": {
+        "message": "Részletes statisztika",
+        "description": ""
+    },
+    "statsPageDetailedAllPages": {
+        "message": "Mind",
+        "description": ""
+    },
+    "statsPageDetailedBehindTheScenePage": {
+        "message": "A háttérben",
+        "description": ""
+    },
+    "statsPageOverview": {
+        "message": "Áttekintés",
+        "description": ""
+    },
+    "statsPageRequests": {
+        "message": "Lekérések",
+        "description": "header for the stat type column"
+    },
+    "statsPageAllowed": {
+        "message": "Engedélyezett",
+        "description": "header for the allowed requests column"
+    },
+    "statsPageBlocked": {
+        "message": "Blokkolt",
+        "description": "header for the blocked requests column"
+    },
+    "statsPageAll": {
+        "message": "Mind",
+        "description": ""
+    },
+    "statsPagePages": {
+        "message": "Oldalak",
+        "description": ""
+    },
+    "statsPageCookies": {
+        "message": "Sütik",
+        "description": ""
+    },
+    "statsPageCSS": {
+        "message": "CSS",
+        "description": ""
+    },
+    "statsPageImages": {
+        "message": "Képek",
+        "description": ""
+    },
+    "statsPagePlugins": {
+        "message": "Bővítmények",
+        "description": ""
+    },
+    "statsPageScripts": {
+        "message": "Szkriptek",
+        "description": ""
+    },
+    "statsPageXHRs": {
+        "message": "XHR-ek",
+        "description": ""
+    },
+    "statsPageFrames": {
+        "message": "Keretek",
+        "description": ""
+    },
+    "statsPageOthers": {
+        "message": "Egyebek",
+        "description": ""
+    },
+    "statsPageDetailed": {
+        "message": "Napló",
+        "description": ""
+    },
+    "statsPageLogSizePrompt1": {
+        "message": "Emlékezz az utolsó",
+        "description": "First part of Remember the last [n] HTTP requests per page"
+    },
+    "statsPageLogSizePrompt2": {
+        "message": "darab HTTP kérésre <b>oldalanként</b>.",
+        "description": "Second part of Remember the last [n] HTTP requests per page"
+    },
+    "statsPageLogSizeHelp": {
+        "message": "<p>A <i>uMatrix</i> lehetőséget ad a weboldalak által generált legutóbbi nyers HTTP lekérések részleteinek megtekintésére.</p><p>Ez leginkább haladó felhasználók számára hasznos, akik szeretnének képben lenni a weboldal tényleges működésével.</p><p>Természetesen a HTTP lekérések naplózása memóriát foglal, ezért amennyiben ilyen részletes technikai információkra nincs szükség, abban az esetben érdemes ezt a funkciót kikapcsolni memóriamegtakarítás céljából.</p><p>Ebben a mezőben megadható a maximálisan eltárolt HTTP lekérések száma; &ldquo;<code>0</code>&rdquo;-ra állítva ez a funkció kikapcsolásra kerül.</p>",
+        "description": "To help user understand the purpose of the log size value"
+    },
+    "statsPageRefresh": {
+        "message": "Frissítés",
+        "description": ""
+    },
+    "logAll": {
+        "message": "All",
+        "description": "Appears in the logger's tab selector"
+    },
+    "logBehindTheScene": {
+        "message": "Tabless",
+        "description": "Pretty name for behind-the-scene network requests"
+    },
+    "loggerCurrentTab": {
+        "message": "Current tab",
+        "description": "Appears in the logger's tab selector"
+    },
+    "loggerReloadTip": {
+        "message": "Reload the tab content",
+        "description": "Tooltip for the reload button in the logger page"
+    },
+    "loggerFilterInputPlaceholder": {
+        "message": "szűrő kifejezés(ek)",
+        "description": "Appears in the input filed where filter expressions are entered"
+    },
+    "loggerEntryCookieDeleted": {
+        "message": "süti törölve: {{value}}",
+        "description": "An entry for when a cookie is deleted"
+    },
+    "loggerEntryDeleteCookieError": {
+        "message": "süti törlése sikertelen: {{value}}",
+        "description": "An entry for when the browser cache is cleared"
+    },
+    "loggerEntryBrowserCacheCleared": {
+        "message": "böngésző gyorsítótára kiürítve",
+        "description": "An entry for when a cookie can't be deleted"
+    },
+    "loggerEntryAssetUpdated": {
+        "message": "host adatok frissítve: {{value}}",
+        "description": "An entry for when an asset was updated"
+    },
+    "loggerRowFiltererButtonTip": {
+        "message": "Toggle logger filtering",
+        "description": "Tooltip for the row filterer button in the logger page"
+    },
+    "logFilterPrompt": {
+        "message": "filter logger content",
+        "description": "Placeholder string for logger output filtering input field"
+    },
+    "loggerPopupPanelTip": {
+        "message": "Toggle the popup panel",
+        "description": "Tooltip for the popup panel button in the logger page"
+    },
+    "loggerInfoTip": {
+        "message": "uBlock Origin wiki: The logger",
+        "description": "Tooltip for the top-right info label in the logger page"
+    },
+    "loggerClearTip": {
+        "message": "Clear logger",
+        "description": "Tooltip for the eraser in the logger page; used to blank the content of the logger"
+    },
+    "loggerPauseTip": {
+        "message": "Pause logger (discard all incoming data)",
+        "description": "Tooltip for the pause button in the logger page"
+    },
+    "loggerUnpauseTip": {
+        "message": "Unpause logger",
+        "description": "Tooltip for the play button in the logger page"
+    },
+    "loggerRowFiltererBuiltinTip": {
+        "message": "Logger filtering options",
+        "description": "Tooltip for the button to bring up logger output filtering options"
+    },
+    "loggerRowFiltererBuiltinNot": {
+        "message": "Not",
+        "description": "A keyword in the built-in row filtering expression"
+    },
+    "loggerRowFiltererBuiltinBlocked": {
+        "message": "blocked",
+        "description": "A keyword in the built-in row filtering expression"
+    },
+    "loggerRowFiltererBuiltinInfo": {
+        "message": "info",
+        "description": "A keyword in the built-in row filtering expression"
+    },
+    "loggerRowFiltererBuiltin1p": {
+        "message": "1st-party",
+        "description": "A keyword in the built-in row filtering expression"
+    },
+    "loggerRowFiltererBuiltin3p": {
+        "message": "3rd-party",
+        "description": "A keyword in the built-in row filtering expression"
+    },
+    "loggerEntryDetailsHeader": {
+        "message": "Details",
+        "description": "Small header to identify the 'Details' pane for a specific logger entry"
+    },
+    "loggerEntryDetailsContext": {
+        "message": "Context",
+        "description": "Label to identify a context field (typically a hostname)"
+    },
+    "loggerEntryDetailsPartyness": {
+        "message": "Partyness",
+        "description": "Label to identify a field providing partyness information"
+    },
+    "loggerEntryDetailsType": {
+        "message": "Type",
+        "description": "Label to identify the type of an entry"
+    },
+    "loggerEntryDetailsURL": {
+        "message": "URL",
+        "description": "Label to identify the URL of an entry"
+    },
+    "loggerEntryRuleHeader": {
+        "message": "Rule",
+        "description": "Small header to identify the 'Rule' pane for a specific logger entry"
+    },
+    "loggerSettingDiscardPrompt": {
+        "message": "Logger entries which do not fulfill all three conditions below will be automatically discarded:",
+        "description": "Logger setting: A sentence to describe the purpose of the settings below"
+    },
+    "loggerSettingPerEntryMaxAge": {
+        "message": "Preserve entries from the last {{input}} minutes",
+        "description": "A logger setting"
+    },
+    "loggerSettingPerTabMaxLoads": {
+        "message": "Preserve at most {{input}} page loads per tab",
+        "description": "A logger setting"
+    },
+    "loggerSettingPerTabMaxEntries": {
+        "message": "Preserve at most {{input}} entries per tab",
+        "description": "A logger setting"
+    },
+    "loggerSettingPerEntryLineCount": {
+        "message": "Use {{input}} lines per entry in vertically expanded mode",
+        "description": "A logger setting"
+    },
+    "loggerExportFormatList": {
+        "message": "List",
+        "description": "Label for radio-button to pick export format"
+    },
+    "loggerExportFormatTable": {
+        "message": "Table",
+        "description": "Label for radio-button to pick export format"
+    },
+    "loggerExportEncodePlain": {
+        "message": "Plain",
+        "description": "Label for radio-button to pick export text format"
+    },
+    "loggerExportEncodeMarkdown": {
+        "message": "Markdown",
+        "description": "Label for radio-button to pick export text format"
+    },
+    "settingsPageTitle": {
+        "message": "uMatrix &ndash; Beállítások",
+        "description": ""
+    },
+    "settingsMatrixDisplayHeader": {
+        "message": "Megjelenés",
+        "description": "header for matrix settings used in Settings page"
+    },
+    "settingsMatrixDisplayTextSizePrompt": {
+        "message": "Betűméret:",
+        "description": ""
+    },
+    "settingsIconBadgeEnabled": {
+        "message": "Blokkolt elemek számának megjelenítése az ikonon",
+        "description": ""
+    },
+    "settingsMatrixDisplayColorBlind": {
+        "message": "Színtévesztőbarát mód",
+        "description": ""
+    },
+    "settingsMatrixConvenienceHeader": {
+        "message": "Kényelmi beállítások",
+        "description": "English: Convenience"
+    },
+    "settingsDefaultScopeLevel": {
+        "message": "Hatáskör alapértelmezett szintje:",
+        "description": "Label for default scope level selector in Settings pane"
+    },
+    "settingsDefaultScopeLevel0": {
+        "message": "Globális",
+        "description": "Scope will be global"
+    },
+    "settingsDefaultScopeLevel1": {
+        "message": "Domain",
+        "description": "Scope will be base domain"
+    },
+    "settingsDefaultScopeLevel2": {
+        "message": "Weboldal",
+        "description": "Scope will be full hostname of site"
+    },
+    "settingsCollapseBlocked": {
+        "message": "Blokkolt elemek helyőrzőinek elrejtése",
+        "description": "A setting in the dashboard's Settings pane"
+    },
+    "settingsCollapseBlacklisted": {
+        "message": "Tiltott elemek helyőrzőinek elrejtése",
+        "description": "A setting in the dashboard's Settings pane: 'blacklisted' means 'for which there is a specific block rule', 'specific' means 'a rule for which the destination hostname is not `*`'"
+    },
+    "settingsNoscriptTagsSpoofed": {
+        "message": "<code><noscript></code> tagek tartalmának felülírása, ha az aktuális domain szkriptjei blokkolva vannak",
+        "description": "This appears in the Settings pane in the dashboard"
+    },
+    "settingsCloudStorageEnabled": {
+        "message": "Felhőszolgáltatások támogatása",
+        "description": ""
+    },
+    "settingsMatrixNoTooltips": {
+        "message": "Tooltip kikapcsolása",
+        "description": ""
+    },
+    "privacyPageTitle": {
+        "message": "uMatrix &ndash; Adatvédelem",
+        "description": ""
+    },
+    "privacyDeleteBlockedCookiesPrompt": {
+        "message": "Blokkolt sütik törlése.",
+        "description": ""
+    },
+    "privacyDeleteBlockedCookiesHelp": {
+        "message": "<p>A <i>uMatrix</i> a tiltólistás sütik böngészőből való távozását tiltja csak meg, a böngészőbe érkezésüket nem akadályozza meg. Ezúton tudomás szerezhető arról, ha egy oldal sütiket akar tárolni, valamint azok tartalma is megtekinthetővé válik.</p><p>Ezen opció bejelölésével a <i>uMatrix</i> automatikusan eltávolítja a beérkezett tiltott sütiket.</p><p><b>Fontos:</b> Nemcsak oldalak, hanem kiegészítők is indíthatnak lekérdezéseket működésük során, amelyek sütik létrehozásához vezethetnek. Amennyiben ez az opció engedélyezve van, továbbá a lekérésekhez tartozó hostneveken a sütik blokkolva vannak, akkor azok el lesznek távolítva a <i>uMatrix</i> által. Ez egyes kiegészítőknél hibás működést eredményezhet, amíg az általuk használt hostnevekről kapott sütik nincsenek engedélyezve.</p>",
+        "description": ""
+    },
+    "privacyDeleteNonBlockedSessionCookiesPrompt1": {
+        "message": "Nem blokkolt munkamenet sütik törlése ",
+        "description": "First part of 'Delete non-blocked session cookies [n] minutes after the last time they have been used'"
+    },
+    "privacyDeleteNonBlockedSessionCookiesPrompt2": {
+        "message": " perccel az utolsó használatuk után.",
+        "description": "Second part of 'Delete non-blocked session cookies [n] minutes after the last time they have been used'"
+    },
+    "privacyDeleteNonBlockedSessionCookiesHelp": {
+        "message": "<p><a href='http://www.w3.org/2001/tag/2010/09/ClientSideStorage.html'>W3C</a>: &ldquo;A munkamenet süti ... eltávolításra kerül a böngészési munkamenettel befejezően. A munkamenet süti ideiglenes memóriában tárolódik és a böngésző bezárásával törlésre kerül.&rdquo;</p><p>Viszont pár böngészőnél <a href='https://code.google.com/p/chromium/issues/detail?id=128513'>előfordulhat, hogy nem ez történik</a>, valamint nem minden esetben elfogadható megoldás a böngésző csak a munkamenet sütik törléséért való bezárása.</p>",
+        "description": ""
+    },
+    "privacyDeleteBlockedLocalStoragePrompt": {
+        "message": "Blokkolt hostnevek által <a href='https://en.wikipedia.org/wiki/Web_storage'>helyileg tárolt</a> adatok törlése",
+        "description": ""
+    },
+    "privacyDeleteBlockedLocalStorageHelp": {
+        "message": "TODO",
+        "description": ""
+    },
+    "privacyClearCachePrompt1": {
+        "message": "Gyorsítótárak ürítése",
+        "description": "First part of 'Clear browser cache every [n] minutes'"
+    },
+    "privacyClearCachePrompt2": {
+        "message": "percenként.",
+        "description": "Second part of 'Clear browser cache every [n] minutes'"
+    },
+    "privacyClearCacheHelp": {
+        "message": "<p>Egyes weboldalak annyira elszántan követni szeretnék a felhasználóikat, hogy képesek nem kifejezetten szép trükköket is bevetni a követés ellen tett lépéseik kikerülése érdekében.</p><p>Pár ilyen trükk<sup>[1, 2]</sup> a <a href='https://en.wikipedia.org/wiki/Web_cache'>böngésző gyorsítótárát</a> használja fel, tekintve, hogy a felhasználók ritkán ürítik ki azt, így gyakran sokáig eltárolásra kerülnek ezek a követők.</p><p>A böngésző gyorsítótárának gyakori ürítése kevés hátránnyal jár, (legtöbbször fel sem tűnik,) ráadásul megállítja ezeket az ellenszenves követéseket a személyes adatok védelme érdekében.</p><p>Ezen opció engedélyezésekor a <i>uMatrix</i> kiüríti a böngészó gyorsítótárát a megadott időközönként.</p><p>[1] <a href='https://grepular.com/Preventing_Web_Tracking_via_the_Browser_Cache'>&ldquo;Preventing Web Tracking via the Browser Cache&rdquo;</a>\n[2] <a href='http://lucb1e.com/rp/cookielesscookies/'>&ldquo;Cookieless cookies&rdquo;</a></p>",
+        "description": ""
+    },
+    "privacyProcessRefererPrompt": {
+        "message": "A <a href='https://hu.wikipedia.org/wiki/HTTP_referer'>HTTP referer</a> header meghamisítása harmadik fél felé küldött lekérések esetében.",
+        "description": ""
+    },
+    "privacyProcessRefererHelp": {
+        "message": "Wikipediából:<blockquote>A Referer egy olyan HTTP header, ami meghatározza annak a weboldalnak címét, ami a lekért oldalra mutatott. ... <b>Mivel ez az információ a személyes adatok védelmét sértheti, néhány böngésző megengedi a felhasználóknak, hogy kikapcsolják ennek az információnak az elküldését.</b></blockquote>Ezen beállítás engedélyezésekor a <i>uMatrix</i> meg fogja hamisítani a referer információt abban az esetben, ha a referer domain neve harmadik félnek számít a lekérés domain nevéhez képest.",
+        "description": ""
+    },
+    "privacyNoMixedContentPrompt": {
+        "message": "Szigorú HTTPS: kevert tartalom tiltása.",
+        "description": ""
+    },
+    "privacyNoMixedContentHelp": {
+        "message": "<p>A <a href='https://developer.mozilla.org/en-US/docs/Security/MixedContent'>Mozilla Developer Network</a>ből:</p><blockquote>Amennyiben [egy] HTTPS oldal sima, szöveges HTTP lekérésen kereszül elért elemeket tartalmaz, akkor a kapcsolat csak részben titkosított: a titkosítatlan tartalom a kapcsolatot lehallgató egyének számára is elérhető, valamint megváltoztatható man-in-the-middle támadás által, ezért a kapcsolat nem tekinthető védettnek ezek fényében. Amikor egy oldal ilyen jelenséget produkál, akkor azt kevert tartalmú oldalnak hívjuk.</blockquote>",
+        "description": ""
+    },
+    "privacyProcessHyperlinkAuditingPrompt": {
+        "message": "Minden <a href='https://html.spec.whatwg.org/multipage/links.html#hyperlink-auditing'>hiperlink-auditálási</a> kísérlet blokkolása.",
+        "description": ""
+    },
+    "privacyProcessHyperlinkAuditingHelp": {
+        "message": "<p>A hiperlink-auditálás egy olyan mechanizmus, ami egy hardmadik- <b>vagy bármely</b> fél számára lehetővé teszi, hogy visszajelzést kapjanak egy a felhasználó által az oldalon lévő linkre történő kattintásról. Lényegében ez egy követési módszer: lehetővé teszi egy oldalnak, vagy bármely harmadik fél számára, hogy tudomást szerezzenek arról, hogy a felhasználó melyik linkre kattintott az oldalon. Egyetlen célja, hogy a felhasználó böngészési aktivitását nyomonkövesse.</p>",
+        "description": ""
+    },
+    "userRulesPermanentHeader": {
+        "message": "Állandó szabályok",
+        "description": ""
+    },
+    "userRulesTemporaryHeader": {
+        "message": "Átmeneti szabályok",
+        "description": ""
+    },
+    "userRulesRevert": {
+        "message": "Visszaállítás",
+        "description": "Will remove all temporary rules"
+    },
+    "userRulesCommit": {
+        "message": "Alkalmaz",
+        "description": "Will save all temporary rules"
+    },
+    "userRulesEdit": {
+        "message": "Szerkesztés",
+        "description": "Will enable manual-edit mode (textarea)"
+    },
+    "userRulesEditSave": {
+        "message": "Mentés",
+        "description": "Will save manually-edited content and exit manual-edit mode"
+    },
+    "userRulesEditDicard": {
+        "message": "Elvetés",
+        "description": "Will discard manually-edited content and exit manual-edit mode"
+    },
+    "userRulesImport": {
+        "message": "Importálás fájlból...",
+        "description": ""
+    },
+    "userRulesExport": {
+        "message": "Exportálás fájlba...",
+        "description": ""
+    },
+    "userRulesFormatHint": {
+        "message": "A szintaktikai szabályok az alábbi oldalon találhatók.",
+        "description": ""
+    },
+    "userRulesDefaultFileName": {
+        "message": "my-umatrix-rules.txt",
+        "description": "default file name to use"
+    },
+    "assetsHostsSection": {
+        "message": "Hosts fájlok",
+        "description": "header to identify the hosts files section"
+    },
+    "hostsFilesPrompt": {
+        "message": "Egy hosts fájlban található összes bejegyzés tiltott hostnév lesz a globális hatáskörre nézve.",
+        "description": ""
+    },
+    "hostsFilesStats": {
+        "message": "{{blockedHostnameCount}} különböző hostnév blokkolva a következő listák alapján:",
+        "description": ""
+    },
+    "hostsFilesPerFileStats": {
+        "message": "{{used}} használatban {{total}} közül",
+        "description": ""
+    },
+    "hostsFilesLastUpdate": {
+        "message": "Utoljára frissítve: {{ago}}",
+        "description": "English: Last update: {{ago}}, where 'ago' will be replaced with something like '2 days ago'"
+    },
+    "hostsFilesApplyChanges": {
+        "message": "Módosítások alkalmazása",
+        "description": ""
+    },
+    "hostsFilesAutoUpdatePrompt": {
+        "message": "Eszközök automatikus frissítése",
+        "description": ""
+    },
+    "hostsFilesUpdateNow": {
+        "message": "Frissítés",
+        "description": ""
+    },
+    "hostsFilesPurgeAll": {
+        "message": "Minden gyorsítótár ürítése",
+        "description": ""
+    },
+    "hostsFilesExternalListsHint": {
+        "message": "Soronként egy URL. A &lsquo;#&rsquo; karakterrel kezdődő sorok figyelmen kívül lesznek hagyva. Az érvénytelen URL-ek hibaüzenet nélkül figyelmen kívül lesznek hagyva.",
+        "description": ""
+    },
+    "hostsFilesExternalListsParse": {
+        "message": "Feldolgozás",
+        "description": ""
+    },
+    "hostsFilesExternalListPurge": {
+        "message": "gyorsítótár ürítése",
+        "description": ""
+    },
+    "hostsFilesExternalListNew": {
+        "message": "új verzió érhető el",
+        "description": ""
+    },
+    "hostsFilesExternalListObsolete": {
+        "message": "elavult",
+        "description": ""
+    },
+    "assetsRecipesSection": {
+        "message": "Szabálysablonok",
+        "description": "header to identify the ruleset files section"
+    },
+    "assetsRecipesSummary": {
+        "message": "Szabálysablonok importálása a felugró panelen <b>kizárólag</b> <em>felhasználói igény szerint</em> történik.",
+        "description": ""
+    },
+    "assetsImportLabel": {
+        "message": "Importálás...",
+        "description": ""
+    },
+    "assetsInlineHostsLabel": {
+        "message": "Saját hosts lista",
+        "description": ""
+    },
+    "assetsInlineRecipesLabel": {
+        "message": "Saját szabálysablonok",
+        "description": ""
+    },
+    "rawSettingsWarning": {
+        "message": "Vigyázat! Ezen nyers beállítások megváltoztatása csak saját felelősségre.",
+        "description": ""
+    },
+    "aboutChangelog": {
+        "message": "<a href='https://github.com/gorhill/uMatrix/releases'>Változási napló</a>",
+        "description": ""
+    },
+    "aboutStorageUsed": {
+        "message": "Tárolóhely használat: {{storageUsed}} byte",
+        "description": ""
+    },
+    "aboutDoc": {
+        "message": "<a href='https://github.com/gorhill/uMatrix/wiki'>Dokumentáció</a>",
+        "description": ""
+    },
+    "aboutPermissions": {
+        "message": "<a href='https://github.com/gorhill/uMatrix/wiki/About-the-required-permissions'>Engedélyek</a>",
+        "description": ""
+    },
+    "aboutCode": {
+        "message": "Forráskód (GPLv3)",
+        "description": ""
+    },
+    "aboutIssues": {
+        "message": "Bugok és problémák",
+        "description": "Text for a link to official issue tracker"
+    },
+    "aboutContributors": {
+        "message": "Közreműködők",
+        "description": "English: Contributors"
+    },
+    "aboutCodeContributors": {
+        "message": "Kód:",
+        "description": ""
+    },
+    "aboutIssueContributors": {
+        "message": "Problémák:",
+        "description": ""
+    },
+    "aboutTranslationContributors": {
+        "message": "Fordítások:",
+        "description": ""
+    },
+    "aboutUserDataHeader": {
+        "message": "Beállítások kezelése",
+        "description": ""
+    },
+    "aboutBackupButton": {
+        "message": "Mentés fájlba...",
+        "description": ""
+    },
+    "aboutBackupFilename": {
+        "message": "my-umatrix-backup.txt",
+        "description": "default filename to use"
+    },
+    "aboutRestoreButton": {
+        "message": "Visszaállítás fájlból...",
+        "description": ""
+    },
+    "aboutRestoreConfirm": {
+        "message": "Minden jelenlegi beállítás felülírásra kerül a {{time}} dátumú biztonsági mentésben található beállítással, majd ezt követően a uMatrix újraindul.\n\nBiztosan felülírjam a jelenlegi beállításokat a megadott biztonsági mentéssel?",
+        "description": "Message asking user to confirm restore"
+    },
+    "aboutRestoreError": {
+        "message": "Nem olvasható vagy érvénytelen adat",
+        "description": ""
+    },
+    "aboutOr": {
+        "message": "... vagy ...",
+        "description": "English: ... or ..."
+    },
+    "aboutResetButton": {
+        "message": "Alapbeállítások visszaállítása",
+        "description": "English: Reset to default settings"
+    },
+    "aboutResetConfirm": {
+        "message": "Vigyázat! A kiegészítő minden egyéni beállítása eltávolításra fog kerülni. Biztosan ezt tegyem?",
+        "description": "Message asking user to confirm reset"
+    },
+    "mainBlockedPrompt1": {
+        "message": "A uMatrix megakadályozta a következő oldal betöltését:",
+        "description": "English: uMatrix has prevented the following page from loading:"
+    },
+    "mainBlockedPrompt2": {
+        "message": "A következő szabály miatt",
+        "description": "English: Because of the following rule"
+    },
+    "mainBlockedNoParamsPrompt": {
+        "message": "paraméterek nélkül",
+        "description": "label to be used for the parameter-less URL: https://cloud.githubusercontent.com/assets/585534/9832014/bfb1b8f0-593b-11e5-8a27-fba472a5529a.png"
+    },
+    "mainBlockedBack": {
+        "message": "Vissza",
+        "description": "English: Go back"
+    },
+    "mainBlockedClose": {
+        "message": "Bezár",
+        "description": "English: Close"
+    },
+    "commandRevertAll": {
+        "message": "Minden ideiglenes változtatás törlése",
+        "description": ""
+    },
+    "commandWhitelistPageDomain": {
+        "message": "Az oldal domainjének ideiglenes engedélyezése",
+        "description": ""
+    },
+    "commandWhitelistAll": {
+        "message": "Minden domain ideiglenes engedélyezése",
+        "description": ""
+    },
+    "commandOpenDashboard": {
+        "message": "Vezérlőpult megnyitása",
+        "description": ""
+    },
+    "elapsedOneMinuteAgo": {
+        "message": "egy perce",
+        "description": "English: a minute ago"
+    },
+    "elapsedManyMinutesAgo": {
+        "message": "{{value}} perce",
+        "description": "English: {{value}} minutes ago"
+    },
+    "elapsedOneHourAgo": {
+        "message": "egy órája",
+        "description": "English: an hour ago"
+    },
+    "elapsedManyHoursAgo": {
+        "message": "{{value}} órája",
+        "description": "English: {{value}} hours ago"
+    },
+    "elapsedOneDayAgo": {
+        "message": "egy napja",
+        "description": "English: a day ago"
+    },
+    "elapsedManyDaysAgo": {
+        "message": "{{value}} napja",
+        "description": "English: {{value}} days ago"
+    },
+    "showDashboardButton": {
+        "message": "Vezérlőpult",
+        "description": "Appears in Firefox's add-on preferences"
+    },
+    "showLoggerButton": {
+        "message": "Napló",
+        "description": "Appears in Firefox's add-on preferences"
+    },
+    "cloudPush": {
+        "message": "Exportálás a felhőszolgáltatásba",
+        "description": "tooltip"
+    },
+    "cloudPull": {
+        "message": "Importálás a felhőszolgáltatásból",
+        "description": "tooltip"
+    },
+    "cloudNoData": {
+        "message": "...\n...",
+        "description": ""
+    },
+    "cloudDeviceNamePrompt": {
+        "message": "Eszköz neve:",
+        "description": "used as a prompt for the user to provide a custom device name"
+    },
+    "genericSubmit": {
+        "message": "Küldés",
+        "description": "for generic 'submit' buttons"
+    },
+    "genericRevert": {
+        "message": "Visszaállítás",
+        "description": "for generic 'revert' buttons"
+    },
+    "errorCantConnectTo": {
+        "message": "Hálózati hiba: {{url}} betöltése sikertelen",
+        "description": ""
+    },
+    "genericApplyChanges": {
+        "message": "Módosítások alkalmazása",
+        "description": "for generic 'Apply changes' buttons"
+    },
+    "genericCopyToClipboard": {
+        "message": "Copy to clipboard",
+        "description": "Label for buttons used to copy something to the clipboard"
+    }
+}

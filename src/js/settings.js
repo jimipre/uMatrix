@@ -1,7 +1,7 @@
 /*******************************************************************************
 
-    µMatrix - a Chromium browser extension to black/white list requests.
-    Copyright (C) 2014  Raymond Hill
+    uMatrix - a Chromium browser extension to black/white list requests.
+    Copyright (C) 2014-2018 Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,116 +19,175 @@
     Home: https://github.com/gorhill/uMatrix
 */
 
-/* global messaging, uDom */
-/* jshint multistr: true */
+/* global uDom */
+
+'use strict';
 
 /******************************************************************************/
 
-(function() {
+{
+// >>>>> start of local scope
 
 /******************************************************************************/
 
-messaging.start('settings.js');
-
-var cachedUserSettings = {};
+let cachedSettings = {};
 
 /******************************************************************************/
 
-var subframeDemoBackgroundImage = 'repeating-linear-gradient(\
--45deg,\
-{{color}},{{color}} 24%,\
-transparent 26%,transparent 49%,\
-{{color}} 51%,{{color}} 74%,\
-transparent 76%,transparent\
-)';
-
-var updateSubframeDemo = function() {
-    var demo = uDom('#subframe-color-demo');
-    var color = uDom('#subframe-color').val();
-    demo.css('border-color', color);
-    var re = new RegExp('\{\{color\}\}', 'g');
-    demo.css('background-image', subframeDemoBackgroundImage.replace(re, color));
-    demo.css('opacity', (parseInt(uDom('#subframe-opacity').val(), 10) / 100).toFixed(1));
-};
-
-var onSubframeColorChanged = function() {
-    var color = uDom('#subframe-color').val();
-    if ( color === '' ) {
-        uDom('#subframe-color').val(color);
-    }
-    changeUserSettings('subframeColor', color);
-    var opacity = parseInt(uDom('#subframe-opacity').val(), 10);
-    if ( Number.isNaN(opacity) ) {
-        opacity = 100;
-    }
-    changeUserSettings('subframeOpacity', opacity);
-    updateSubframeDemo();
-};
-
-/******************************************************************************/
-
-function changeUserSettings(name, value) {
-    messaging.tell({
+const changeUserSettings = function(name, value) {
+    vAPI.messaging.send('dashboard', {
         what: 'userSettings',
-        name: name,
-        value: value
+        name,
+        value
     });
-}
+};
 
 /******************************************************************************/
 
-function prepareToDie() {
-    onSubframeColorChanged();
-}
+const changeMatrixSwitch = function(switchName, state) {
+    vAPI.messaging.send('dashboard', {
+        what: 'setMatrixSwitch',
+        switchName,
+        state
+    });
+};
 
 /******************************************************************************/
 
-var installEventHandlers = function() {
-    // `data-range` allows to add/remove bool properties without 
-    // changing code.
-    uDom('input[data-range="bool"]').on('change', function() {
-        changeUserSettings(this.id, this.checked);
+const onChangeValueHandler = function (elem, setting, min, max) {
+    const oldVal = cachedSettings.userSettings[setting];
+    let newVal = Math.round(parseFloat(elem.value));
+    if ( typeof newVal !== 'number' ) {
+        newVal = oldVal;
+    } else {
+        newVal = Math.max(newVal, min);
+        newVal = Math.min(newVal, max);
+    }
+    elem.value = newVal;
+    if ( newVal !== oldVal ) {
+        changeUserSettings(setting, newVal);
+    }
+};
+
+/******************************************************************************/
+
+const prepareToDie = function() {
+    onChangeValueHandler(
+        uDom.nodeFromId('deleteUnusedSessionCookiesAfter'),
+        'deleteUnusedSessionCookiesAfter',
+        15, 1440
+    );
+    onChangeValueHandler(
+        uDom.nodeFromId('clearBrowserCacheAfter'),
+        'clearBrowserCacheAfter',
+        15, 1440
+    );
+};
+
+/******************************************************************************/
+
+const onInputChanged = function(ev) {
+    const target = ev.target;
+
+    switch ( target.id ) {
+    case 'displayTextSize':
+        changeUserSettings('displayTextSize', target.value + 'px');
+        break;
+    case 'clearBrowserCache':
+    case 'cloudStorageEnabled':
+    case 'collapseBlacklisted':
+    case 'collapseBlocked':
+    case 'colorBlindFriendly':
+    case 'deleteCookies':
+    case 'deleteLocalStorage':
+    case 'deleteUnusedSessionCookies':
+    case 'iconBadgeEnabled':
+    case 'noTooltips':
+    case 'processHyperlinkAuditing':
+        changeUserSettings(target.id, target.checked);
+        break;
+    case 'noMixedContent':
+    case 'noscriptTagsSpoofed':
+    case 'processReferer':
+        changeMatrixSwitch(
+            target.getAttribute('data-matrix-switch'),
+            target.checked
+        );
+        break;
+    case 'deleteUnusedSessionCookiesAfter':
+        onChangeValueHandler(target, 'deleteUnusedSessionCookiesAfter', 15, 1440);
+        break;
+    case 'clearBrowserCacheAfter':
+        onChangeValueHandler(target, 'clearBrowserCacheAfter', 15, 1440);
+        break;
+    case 'popupScopeLevel':
+        changeUserSettings('popupScopeLevel', target.value);
+        break;
+    default:
+        break;
+    }
+
+    switch ( target.id ) {
+    case 'collapseBlocked':
+        synchronizeWidgets();
+        break;
+    default:
+        break;
+    }
+};
+
+/******************************************************************************/
+
+const synchronizeWidgets = function() {
+    const e1 = uDom.nodeFromId('collapseBlocked');
+    const e2 = uDom.nodeFromId('collapseBlacklisted');
+    if ( e1.checked ) {
+        e2.setAttribute('disabled', '');
+    } else {
+        e2.removeAttribute('disabled');
+    }
+};
+
+/******************************************************************************/
+
+vAPI.messaging.send('dashboard', {
+    what: 'getUserSettings'
+}).then(settings => {
+    // Cache copy
+    cachedSettings = settings;
+
+    const userSettings = settings.userSettings;
+    const matrixSwitches = settings.matrixSwitches;
+
+    uDom('[data-setting-bool]').forEach(function(elem){
+        elem.prop('checked', userSettings[elem.prop('id')] === true);
     });
 
-    uDom('input[name="displayTextSize"]').on('change', function(){
-        changeUserSettings('displayTextSize', this.value);
+    uDom('[data-matrix-switch]').forEach(function(elem){
+        const switchName = elem.attr('data-matrix-switch');
+        if ( typeof switchName === 'string' && switchName !== '' ) {
+            elem.prop('checked', matrixSwitches[switchName] === true);
+        }
     });
-    uDom('#smart-auto-reload').on('change', function(){
-        changeUserSettings('smartAutoReload', this.value);
-    });
-    uDom('#subframe-color').on('change', function(){ onSubframeColorChanged(); });
-    uDom('#subframe-opacity').on('change', function(){ onSubframeColorChanged(); });
+
+    uDom.nodeFromId('displayTextSize').value =
+        parseInt(userSettings.displayTextSize, 10) || 14;
+
+    uDom.nodeFromId('popupScopeLevel').value = userSettings.popupScopeLevel;
+    uDom.nodeFromId('deleteUnusedSessionCookiesAfter').value =
+        userSettings.deleteUnusedSessionCookiesAfter;
+    uDom.nodeFromId('clearBrowserCacheAfter').value =
+        userSettings.clearBrowserCacheAfter;
+
+    synchronizeWidgets();
+
+    document.addEventListener('change', onInputChanged);
 
     // https://github.com/gorhill/httpswitchboard/issues/197
     uDom(window).on('beforeunload', prepareToDie);
-};
-
-/******************************************************************************/
-
-uDom.onLoad(function() {
-    var onUserSettingsReceived = function(userSettings) {
-        // Cache copy
-        cachedUserSettings = userSettings;
-
-        // `data-range` allows to add/remove bool properties without 
-        // changing code.
-        uDom('input[data-range="bool"]').forEach(function(elem) {
-            elem.prop('checked', userSettings[elem.attr('id')] === true);
-        });
-
-        uDom('input[name="displayTextSize"]').forEach(function(elem) {
-            elem.prop('checked', elem.val() === userSettings.displayTextSize);
-        });
-        uDom('#smart-auto-reload').val(userSettings.smartAutoReload);
-        uDom('#subframe-color').val(userSettings.subframeColor);
-        uDom('#subframe-opacity').val(userSettings.subframeOpacity);
-        updateSubframeDemo();
-
-        installEventHandlers();
-    };
-    messaging.ask({ what: 'getUserSettings' }, onUserSettingsReceived);
 });
 
 /******************************************************************************/
 
-})();
+// <<<<< end of local scope
+}

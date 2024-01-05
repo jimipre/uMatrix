@@ -1,7 +1,7 @@
 /*******************************************************************************
 
-    µMatrix - a Chromium browser extension to black/white list requests.
-    Copyright (C) 2014  Raymond Hill
+    uMatrix - a browser extension to black/white list requests.
+    Copyright (C) 2014-2018  Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,30 +21,32 @@
 
 /* global uDom */
 
+'use strict';
+
+{
+// >>>>> start of local scope
+
 /******************************************************************************/
 
-(function() {
-
-var loadDashboardPanel = function(hash) {
-    var button = uDom(hash);
-    var url = button.attr('data-dashboard-panel-url');
-    uDom('iframe').nodeAt(0).src = url;
+const loadDashboardPanel = function(hash) {
+    const button = uDom(hash);
+    const url = button.attr('data-dashboard-panel-url');
+    uDom('iframe').attr('src', url);
     uDom('.tabButton').forEach(function(button){
-        button.toggleClass('selected', button.attr('data-dashboard-panel-url') === url);
+        button.toggleClass(
+            'selected',
+            button.attr('data-dashboard-panel-url') === url
+        );
     });
 };
 
-/******************************************************************************/
-
-var onTabClickHandler = function() {
+const onTabClickHandler = function() {
     loadDashboardPanel(window.location.hash);
 };
 
-/******************************************************************************/
-
 uDom.onLoad(function() {
     window.addEventListener('hashchange', onTabClickHandler);
-    var hash = window.location.hash;
+    let hash = window.location.hash;
     if ( hash.length < 2 ) {
         hash = '#settings';
     }
@@ -53,4 +55,5 @@ uDom.onLoad(function() {
 
 /******************************************************************************/
 
-})();
+// <<<<< end of local scope
+}

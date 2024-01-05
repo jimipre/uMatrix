@@ -1,7 +1,7 @@
 /*******************************************************************************
 
-    µMatrix - a Chromium browser extension to black/white list requests.
-    Copyright (C) 2014  Raymond Hill
+    uMatrix - a browser extension to black/white list requests.
+    Copyright (C) 2014-2018 Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
     Home: https://github.com/gorhill/uMatrix
 */
 
-/* global µMatrix, publicSuffixList */
+'use strict';
 
 /*******************************************************************************
 
@@ -31,9 +31,7 @@ Naming convention from https://en.wikipedia.org/wiki/URI_scheme#Examples
 
 /******************************************************************************/
 
-// This will inserted as a module in the µMatrix object.
-
-µMatrix.URI = (function() {
+µMatrix.URI = (( ) => {
 
 /******************************************************************************/
 
@@ -44,11 +42,11 @@ Naming convention from https://en.wikipedia.org/wiki/URI_scheme#Examples
 // <http://jsperf.com/old-uritools-vs-new-uritools>
 // Performance improvements welcomed.
 // jsperf: <http://jsperf.com/old-uritools-vs-new-uritools>
-var reRFC3986 = /^([^:\/?#]+:)?(\/\/[^\/?#]*)?([^?#]*)(\?[^#]*)?(#.*)?/;
+const reRFC3986 = /^([^:\/?#]+:)?(\/\/[^\/?#]*)?([^?#]*)(\?[^#]*)?(#.*)?/;
 
 // Derived
-var reSchemeFromURI          = /^[^:\/?#]+:/;
-var reAuthorityFromURI       = /^(?:[^:\/?#]+:)?(\/\/[^\/?#]+)/;
+const reSchemeFromURI = /^[a-z][0-9a-z+.-]+:/;
+const reOriginFromURI = /^(?:[^:\/?#]+:)\/\/[^\/?#]+/;
 
 // These are to parse authority field, not parsed by above official regex
 // IPv6 is seen as an exception: a non-compatible IPv6 is first tried, and
@@ -58,27 +56,21 @@ var reAuthorityFromURI       = /^(?:[^:\/?#]+:)?(\/\/[^\/?#]+)/;
 // https://github.com/gorhill/httpswitchboard/issues/211
 // "While a hostname may not contain other characters, such as the
 // "underscore character (_), other DNS names may contain the underscore"
-var reHostPortFromAuthority  = /^(?:[^@]*@)?([0-9a-z._-]*)(:\d*)?$/i;
-var reIPv6PortFromAuthority  = /^(?:[^@]*@)?(\[[0-9a-f:]*\])(:\d*)?$/i;
+const reHostPortFromAuthority  = /^(?:[^@]*@)?([^:]*)(:\d*)?$/;
+const reIPv6PortFromAuthority  = /^(?:[^@]*@)?(\[[0-9a-f:]*\])(:\d*)?$/i;
 
-var reHostFromNakedAuthority = /^[0-9a-z._-]+[0-9a-z]$/i;
-var reHostFromAuthority      = /^(?:[^@]*@)?([0-9a-z._-]+)(?::\d*)?$/i;
-var reIPv6FromAuthority      = /^(?:[^@]*@)?(\[[0-9a-f:]+\])(?::\d*)?$/i;
-
-// Coarse (but fast) tests
-var reValidHostname          = /^([a-z\d]+(-*[a-z\d]+)*)(\.[a-z\d]+(-*[a-z\d])*)*$/;
-var reIPAddressNaive         = /^\d+\.\d+\.\d+\.\d+$|^\[[\da-zA-Z:]+\]$/;
+const reHostFromNakedAuthority = /^[0-9a-z._-]+[0-9a-z]$/i;
 
 // Accurate tests
 // Source.: http://stackoverflow.com/questions/5284147/validating-ipv4-addresses-with-regexp/5284410#5284410
-var reIPv4                   = /^((25[0-5]|2[0-4]\d|[01]?\d\d?)(\.|$)){4}/;
+//var reIPv4                   = /^((25[0-5]|2[0-4]\d|[01]?\d\d?)(\.|$)){4}/;
 
 // Source: http://forums.intermapper.com/viewtopic.php?p=1096#1096
-var reIPv6                   = /^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/;
+//var reIPv6                   = /^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/;
 
 /******************************************************************************/
 
-var reset = function(o) {
+const reset = function(o) {
     o.scheme = '';
     o.hostname = '';
     o._ipv4 = undefined;
@@ -90,7 +82,7 @@ var reset = function(o) {
     return o;
 };
 
-var resetAuthority = function(o) {
+const resetAuthority = function(o) {
     o.hostname = '';
     o._ipv4 = undefined;
     o._ipv6 = undefined;
@@ -102,7 +94,7 @@ var resetAuthority = function(o) {
 
 // This will be exported
 
-var URI = {
+const URI = {
     scheme:      '',
     authority:   '',
     hostname:    '',
@@ -225,78 +217,40 @@ URI.assemble = function(bits) {
 
 /******************************************************************************/
 
+URI.originFromURI = function(uri) {
+    const matches = reOriginFromURI.exec(uri);
+    return matches !== null ? matches[0].toLowerCase() : '';
+};
+
+/******************************************************************************/
+
 URI.schemeFromURI = function(uri) {
-    var matches = reSchemeFromURI.exec(uri);
-    if ( matches === null ) {
-        return '';
-    }
+    const matches = reSchemeFromURI.exec(uri);
+    if ( matches === null ) { return ''; }
     return matches[0].slice(0, -1).toLowerCase();
 };
 
 /******************************************************************************/
 
-URI.authorityFromURI = function(uri) {
-    var matches = reAuthorityFromURI.exec(uri);
-    if ( !matches ) {
-        return '';
-    }
-    return matches[1].slice(2).toLowerCase();
+const reNetworkScheme = /^(?:https?|wss?|ftps?)\b/;
+
+URI.isNetworkScheme = function(scheme) {
+    return reNetworkScheme.test(scheme);
 };
 
 /******************************************************************************/
 
-// The most used function, so it better be fast.
+const reSecureScheme = /^(?:http|ws|ftp)s\b/;
 
-URI.hostnameFromURI = function(uri) {
-    var matches = reAuthorityFromURI.exec(uri);
-    if ( !matches ) {
-        return '';
-    }
-    var authority = matches[1].slice(2);
-    // Assume very simple authority (most common case for µMatrix)
-    if ( reHostFromNakedAuthority.test(authority) ) {
-        return authority.toLowerCase();
-    }
-    matches = reHostFromAuthority.exec(authority);
-    if ( !matches ) {
-        matches = reIPv6FromAuthority.exec(authority);
-        if ( !matches ) {
-            return '';
-        }
-    }
-    // http://en.wikipedia.org/wiki/FQDN
-    var hostname = matches[1];
-    if ( hostname.slice(-1) === '.' ) {
-        hostname = hostname.slice(0, -1);
-    }
-    return hostname.toLowerCase();
+URI.isSecureScheme = function(scheme) {
+    return reSecureScheme.test(scheme);
 };
 
 /******************************************************************************/
 
-// It is expected that there is higher-scoped `publicSuffixList` lingering
-// somewhere. Cache it. See <https://github.com/gorhill/publicsuffixlist.js>.
-var psl = publicSuffixList;
-
-URI.domainFromHostname = function(hostname) {
-    if ( !reIPAddressNaive.test(hostname) ) {
-        return psl.getDomain(hostname);
-    }
-    return hostname;
-};
-
-URI.domain = function() {
-    return this.domainFromHostname(this.hostname);
-};
-
-/******************************************************************************/
-
-URI.domainFromURI = function(uri) {
-    if ( !uri ) {
-        return '';
-    }
-    return this.domainFromHostname(this.hostnameFromURI(uri));
-};
+URI.hostnameFromURI = vAPI.hostnameFromURI;
+URI.domainFromHostname = vAPI.domainFromHostname;
+URI.domainFromURI = vAPI.domainFromURI;
 
 /******************************************************************************/
 
@@ -308,92 +262,6 @@ URI.normalizedURI = function() {
     // - user id/password
     // - fragment
     return this.assemble(this.normalizeBits);
-};
-
-/******************************************************************************/
-
-URI.rootURL = function() {
-    if ( !this.hostname ) {
-        return '';
-    }
-    return this.assemble(this.schemeBit | this.hostnameBit);
-};
-
-/******************************************************************************/
-
-URI.isValidHostname = function(hostname) {
-    var r;
-    try {
-        r = reValidHostname.test(hostname);
-    }
-    catch (e) {
-        return false;
-    }
-    return r;
-};
-
-/******************************************************************************/
-
-// Return the parent domain. For IP address, there is no parent domain.
-
-URI.parentHostnameFromHostname = function(hostname) {
-    // `locahost` => ``
-    // `example.org` => `example.org`
-    // `www.example.org` => `example.org`
-    // `tomato.www.example.org` => `example.org`
-    var domain = this.domainFromHostname(hostname);
-
-    // `locahost` === `` => bye
-    // `example.org` === `example.org` => bye
-    // `www.example.org` !== `example.org` => stay
-    // `tomato.www.example.org` !== `example.org` => stay
-    if ( domain === '' || domain === hostname ) {
-        return undefined;
-    }
-
-    // Parent is hostname minus first label
-    return hostname.slice(hostname.indexOf('.') + 1);
-};
-
-/******************************************************************************/
-
-// Return all possible parent hostnames which can be derived from `hostname`,
-// ordered from direct parent up to domain inclusively.
-
-URI.parentHostnamesFromHostname = function(hostname) {
-    // TODO: I should create an object which is optimized to receive
-    // the list of hostnames by making it reusable (junkyard etc.) and which
-    // has its own element counter property in order to avoid memory
-    // alloc/dealloc.
-    var domain = this.domainFromHostname(hostname);
-    if ( domain === '' || domain === hostname ) {
-        return [];
-    }
-    var nodes = [];
-    var pos;
-    for (;;) {
-        pos = hostname.indexOf('.');
-        if ( pos < 0 ) {
-            break;
-        }
-        hostname = hostname.slice(pos + 1);
-        nodes.push(hostname);
-        if ( hostname === domain ) {
-            break;
-        }
-    }
-    return nodes;
-};
-
-/******************************************************************************/
-
-// Return all possible hostnames which can be derived from `hostname`,
-// ordered from self up to domain inclusively.
-
-URI.allHostnamesFromHostname = function(hostname) {
-    var nodes = this.parentHostnamesFromHostname(hostname);
-    nodes.unshift(hostname);
-    return nodes;
 };
 
 /******************************************************************************/

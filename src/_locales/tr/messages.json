@@ -1,0 +1,866 @@
+{
+    "extName": {
+        "message": "uMatrix",
+        "description": ""
+    },
+    "extShortDesc": {
+        "message": "İşaret edip tıklayarak tarayıcının yaptığı herhangi bir istek sınıfı yasaklanabilir veya buna izin verilebilir.",
+        "description": "this will be used as short description in web stores: MUST BE 132 characters OR LESS"
+    },
+    "dashboardPageName": {
+        "message": "uMatrix — Kontrol Paneli",
+        "description": ""
+    },
+    "loggerPageName": {
+        "message": "uMatrix — Günlükçü",
+        "description": "Title for the logger window"
+    },
+    "settingsPageName": {
+        "message": "Ayarlar",
+        "description": "a tab in dashboard"
+    },
+    "privacyPageName": {
+        "message": "Gizlilik",
+        "description": "a tab in dashboard"
+    },
+    "statsPageName": {
+        "message": "İstatistikler",
+        "description": "a tab in dashboard"
+    },
+    "userRulesPageName": {
+        "message": "Kurallarım",
+        "description": "a tab in dashboard"
+    },
+    "ubiquitousRulesPageName": {
+        "message": "Varlıklar",
+        "description": "a tab in dashboard"
+    },
+    "rawSettingsPageName": {
+        "message": "Daha",
+        "description": "a tab in dashboard"
+    },
+    "aboutPageName": {
+        "message": "Hakkında",
+        "description": "a tab in dashboard"
+    },
+    "allPrettyName": {
+        "message": "tümü",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "cookiePrettyName": {
+        "message": "çerez",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "cssPrettyName": {
+        "message": "css",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "imagePrettyName": {
+        "message": "resim",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "mediaPrettyName": {
+        "message": "medya",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "pluginPrettyName": {
+        "message": "eklenti",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "scriptPrettyName": {
+        "message": "betik",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "fetchPrettyName": {
+        "message": "getir",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "framePrettyName": {
+        "message": "çerçeve",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "otherPrettyName": {
+        "message": "diğer",
+        "description": "HAS TO FIT IN MATRIX HEADER!"
+    },
+    "matrixNoNetTrafficPrompt": {
+        "message": "Bu sekme için şimdiye kadar hiç ağ trafiği görülmedi.",
+        "description": ""
+    },
+    "matrixLocalScopeTip": {
+        "message": "Yalnızca bu kapsamda geçerli olan kuralları görmek/oluşturmak için yerel bir kapsam seçin",
+        "description": "Tool tip for the local scope button"
+    },
+    "matrixGlobalScopeTip": {
+        "message": "Her yere uygulanan kuralları görmek/oluşturmak için genel kapsamı seçin",
+        "description": "Tool tip for the global scope button"
+    },
+    "matrixMtxButtonTip": {
+        "message": "Bu kapsam için matris süzgecini devre dışı bırak/etkinleştir.",
+        "description": "Tool tip for matrix button"
+    },
+    "matrixPersistButtonTip": {
+        "message": "Bu kapsam için geçici değişikliklerin tümünü kaydet.",
+        "description": "Tool tip for the persist button"
+    },
+    "matrixRevertButtonTip": {
+        "message": "Bu kapsam için geçici değişiklikleri geri al.",
+        "description": "Tool tip for the revert local permission button"
+    },
+    "matrixReloadButton": {
+        "message": "Sayfayı yeniden yükle.\nTarayıcı önbelleğini yok sayarak yeniden yüklemek için Üst Karakter'e basın.",
+        "description": "Tool tip for the reload button"
+    },
+    "matrix1stPartyLabel": {
+        "message": "1. taraf",
+        "description": "1st-party"
+    },
+    "matrixBlacklistedHostnames": {
+        "message": "{{count}} kara listelenmiş alan adı",
+        "description": "Appears in the metadata row of bottom-most group: **mind the limited width**"
+    },
+    "matrixSwitchNoMixedContent": {
+        "message": "Katı HTTPS",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixSwitchNoWorker": {
+        "message": "Web işçilerini yasakla",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixSwitchReferrerSpoof": {
+        "message": "Başvuran aldat",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixSwitchNoscriptSpoof": {
+        "message": "<code><noscript></code> etiketlerini aldat",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixSwitchRevealCname": {
+        "message": "Kanonik isimleri ortaya çıkar",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixRevertAllEntry": {
+        "message": "Geçici değişikliklerin tümünü geri al",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixLoggerMenuEntry": {
+        "message": "Günlükçüye git",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixDashboardMenuEntry": {
+        "message": "Kontrol paneline git",
+        "description": "A menu entry in the matrix popup"
+    },
+    "matrixNoTabFound": {
+        "message": "Hiçbir web sayfası bulunamadı",
+        "description": "Displays in place of matrix when no data is found for the current page"
+    },
+    "matrixRecipeImportTip": {
+        "message": "Kuralları içe aktar",
+        "description": "Used as a tooltip for the recipe import button"
+    },
+    "matrixRecipeSaveTip": {
+        "message": "Kuralları kaydet",
+        "description": "Used as a tooltip for the recipe padlock button"
+    },
+    "statsPageTitle": {
+        "message": "uMatrix &ndash; İstatistikleri",
+        "description": ""
+    },
+    "statsPageGenericStats": {
+        "message": "Genel istatistikler",
+        "description": ""
+    },
+    "statsPageCookieHeadersFoiled": {
+        "message": "<a href='https://en.wikipedia.org/wiki/HTTP_cookie'>HTTP çerez</a> başlığı önlendi: {{count}}",
+        "description": ""
+    },
+    "statsPageRefererHeadersFoiled": {
+        "message": "<a href='https://en.wikipedia.org/wiki/HTTP_referer'>HTTP başvuran</a> başlığı önlendi: {{count}}",
+        "description": ""
+    },
+    "statsPageHyperlinkAuditingFoiled": {
+        "message": "<a href='https://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing'>Hiperbağlaç denetim</a> girişimi önlendi: {{count}}",
+        "description": ""
+    },
+    "statsPageCookiesRemoved": {
+        "message": "Yerel çerezler kaldırıldı: {{count}}",
+        "description": ""
+    },
+    "statsPageLocalStoragesCleared": {
+        "message": "<a href='http://diveintohtml5.info/storage.html'>Yerel depolar</a> boşaltıldı: {{count}}",
+        "description": ""
+    },
+    "statsPageBrowserCacheCleared": {
+        "message": "Tarayıcı önbelleği temizlendi: {{count}}",
+        "description": ""
+    },
+    "statsPageDetailedStats": {
+        "message": "Ayrıntılı istatistikler",
+        "description": ""
+    },
+    "statsPageDetailedAllPages": {
+        "message": "Tümü",
+        "description": ""
+    },
+    "statsPageDetailedBehindTheScenePage": {
+        "message": "Perde arkası",
+        "description": ""
+    },
+    "statsPageOverview": {
+        "message": "Genel Bakış",
+        "description": ""
+    },
+    "statsPageRequests": {
+        "message": "İstekler",
+        "description": "header for the stat type column"
+    },
+    "statsPageAllowed": {
+        "message": "İzin verilen",
+        "description": "header for the allowed requests column"
+    },
+    "statsPageBlocked": {
+        "message": "Engellenmiş",
+        "description": "header for the blocked requests column"
+    },
+    "statsPageAll": {
+        "message": "Tümü",
+        "description": ""
+    },
+    "statsPagePages": {
+        "message": "Sayfalar",
+        "description": ""
+    },
+    "statsPageCookies": {
+        "message": "Çerezler",
+        "description": ""
+    },
+    "statsPageCSS": {
+        "message": "CSS",
+        "description": ""
+    },
+    "statsPageImages": {
+        "message": "Resimler",
+        "description": ""
+    },
+    "statsPagePlugins": {
+        "message": "Eklentiler",
+        "description": ""
+    },
+    "statsPageScripts": {
+        "message": "Betikler",
+        "description": ""
+    },
+    "statsPageXHRs": {
+        "message": "XHR'ler",
+        "description": ""
+    },
+    "statsPageFrames": {
+        "message": "Çerçeveler",
+        "description": ""
+    },
+    "statsPageOthers": {
+        "message": "Diğerleri",
+        "description": ""
+    },
+    "statsPageDetailed": {
+        "message": "Günlükçü",
+        "description": ""
+    },
+    "statsPageLogSizePrompt1": {
+        "message": "<b>Sayfa başına</b> son",
+        "description": "First part of Remember the last [n] HTTP requests per page"
+    },
+    "statsPageLogSizePrompt2": {
+        "message": "HTTP isteğini hatırla.",
+        "description": "Second part of Remember the last [n] HTTP requests per page"
+    },
+    "statsPageLogSizeHelp": {
+        "message": "<p>Bir web sayfası tarafından en son yapılan işlenmemiş HTTP isteklerinin ayrıntılarını denetleyebilirsiniz (aşağıya bakın).</p><p>Bu en çok ileri düzey kullanıcıların bir web sayfasının tam olarak ne yaptığını incelemerinde kullanışlı olur. Fakat bu HTTP istek günlüklüklerinin tutulması bellek kullanımı arttırır ve bu teknik bilgiye ihtiyacınız yoksa bellek boşa kullanılmış olur.</p><p>Bundan dolayı en fazla günlüğü tutulacak HTTP istek sayısını bu alandan ayarlayabilirsiniz.</p><p>&ldquo;<code>0</code>&rdquo; girerek ayrıntılı günlük tutulmasını kapatabilirsiniz (ve netice olarak <i>uMatrix'in</i> bellek kullanımını düşürürsünüz).</p>",
+        "description": "To help user understand the purpose of the log size value"
+    },
+    "statsPageRefresh": {
+        "message": "Yenile",
+        "description": ""
+    },
+    "logAll": {
+        "message": "Tümü",
+        "description": "Appears in the logger's tab selector"
+    },
+    "logBehindTheScene": {
+        "message": "Sekmesiz",
+        "description": "Pretty name for behind-the-scene network requests"
+    },
+    "loggerCurrentTab": {
+        "message": "Mevcut sekme",
+        "description": "Appears in the logger's tab selector"
+    },
+    "loggerReloadTip": {
+        "message": "Sekme içeriğini yeniden yükle",
+        "description": "Tooltip for the reload button in the logger page"
+    },
+    "loggerFilterInputPlaceholder": {
+        "message": "süzgeç ifadeleri",
+        "description": "Appears in the input filed where filter expressions are entered"
+    },
+    "loggerEntryCookieDeleted": {
+        "message": "çerez silindi: {{value}}",
+        "description": "An entry for when a cookie is deleted"
+    },
+    "loggerEntryDeleteCookieError": {
+        "message": "çerez silme başarısız: {{value}}",
+        "description": "An entry for when the browser cache is cleared"
+    },
+    "loggerEntryBrowserCacheCleared": {
+        "message": "tarayıcı önbelleği temizlendi",
+        "description": "An entry for when a cookie can't be deleted"
+    },
+    "loggerEntryAssetUpdated": {
+        "message": "liste güncellendi: {{value}}",
+        "description": "An entry for when an asset was updated"
+    },
+    "loggerRowFiltererButtonTip": {
+        "message": "Kaydedici filtrelemesini aç/kapat",
+        "description": "Tooltip for the row filterer button in the logger page"
+    },
+    "logFilterPrompt": {
+        "message": "kaydedici içeriğini filtrele",
+        "description": "Placeholder string for logger output filtering input field"
+    },
+    "loggerPopupPanelTip": {
+        "message": "Açılır pencere panelini aç/kapat",
+        "description": "Tooltip for the popup panel button in the logger page"
+    },
+    "loggerInfoTip": {
+        "message": "uBlock Origin viki: Kaydedici",
+        "description": "Tooltip for the top-right info label in the logger page"
+    },
+    "loggerClearTip": {
+        "message": "Kaydediciyi temizle",
+        "description": "Tooltip for the eraser in the logger page; used to blank the content of the logger"
+    },
+    "loggerPauseTip": {
+        "message": "Kaydediciyi duraklat (gelen tüm verileri sil)",
+        "description": "Tooltip for the pause button in the logger page"
+    },
+    "loggerUnpauseTip": {
+        "message": "Kaydediciyi devam ettir",
+        "description": "Tooltip for the play button in the logger page"
+    },
+    "loggerRowFiltererBuiltinTip": {
+        "message": "Kaydedici filtreleme seçenekleri",
+        "description": "Tooltip for the button to bring up logger output filtering options"
+    },
+    "loggerRowFiltererBuiltinNot": {
+        "message": "Değil",
+        "description": "A keyword in the built-in row filtering expression"
+    },
+    "loggerRowFiltererBuiltinBlocked": {
+        "message": "engellendi",
+        "description": "A keyword in the built-in row filtering expression"
+    },
+    "loggerRowFiltererBuiltinInfo": {
+        "message": "bilgi",
+        "description": "A keyword in the built-in row filtering expression"
+    },
+    "loggerRowFiltererBuiltin1p": {
+        "message": "1. taraf",
+        "description": "A keyword in the built-in row filtering expression"
+    },
+    "loggerRowFiltererBuiltin3p": {
+        "message": "3. taraf",
+        "description": "A keyword in the built-in row filtering expression"
+    },
+    "loggerEntryDetailsHeader": {
+        "message": "Ayrıntılar",
+        "description": "Small header to identify the 'Details' pane for a specific logger entry"
+    },
+    "loggerEntryDetailsContext": {
+        "message": "İçerik",
+        "description": "Label to identify a context field (typically a hostname)"
+    },
+    "loggerEntryDetailsPartyness": {
+        "message": "Taraf",
+        "description": "Label to identify a field providing partyness information"
+    },
+    "loggerEntryDetailsType": {
+        "message": "Tür",
+        "description": "Label to identify the type of an entry"
+    },
+    "loggerEntryDetailsURL": {
+        "message": "URL",
+        "description": "Label to identify the URL of an entry"
+    },
+    "loggerEntryRuleHeader": {
+        "message": "Kural",
+        "description": "Small header to identify the 'Rule' pane for a specific logger entry"
+    },
+    "loggerSettingDiscardPrompt": {
+        "message": "Aşağıdaki üç koşulu da karşılamayan kaydedici girdileri otomatik olarak atılacaktır:",
+        "description": "Logger setting: A sentence to describe the purpose of the settings below"
+    },
+    "loggerSettingPerEntryMaxAge": {
+        "message": "Son {{input}} dakikadaki girdileri muhafaza et",
+        "description": "A logger setting"
+    },
+    "loggerSettingPerTabMaxLoads": {
+        "message": "Sekme başına en fazla {{input}} sayfa yüklenmesini muhafaza et",
+        "description": "A logger setting"
+    },
+    "loggerSettingPerTabMaxEntries": {
+        "message": "Sekme başına en fazla {{input}} girdiyi muhafaza et",
+        "description": "A logger setting"
+    },
+    "loggerSettingPerEntryLineCount": {
+        "message": "Dikey olarak genişletildiğinde girdi başına {{input}} satır kullan",
+        "description": "A logger setting"
+    },
+    "loggerExportFormatList": {
+        "message": "Liste",
+        "description": "Label for radio-button to pick export format"
+    },
+    "loggerExportFormatTable": {
+        "message": "Tablo",
+        "description": "Label for radio-button to pick export format"
+    },
+    "loggerExportEncodePlain": {
+        "message": "Düz",
+        "description": "Label for radio-button to pick export text format"
+    },
+    "loggerExportEncodeMarkdown": {
+        "message": "Markdown",
+        "description": "Label for radio-button to pick export text format"
+    },
+    "settingsPageTitle": {
+        "message": "uMatrix &ndash; Ayarları",
+        "description": ""
+    },
+    "settingsMatrixDisplayHeader": {
+        "message": "Matris",
+        "description": "header for matrix settings used in Settings page"
+    },
+    "settingsMatrixDisplayTextSizePrompt": {
+        "message": "Metin boyutu:",
+        "description": ""
+    },
+    "settingsIconBadgeEnabled": {
+        "message": "Engellenmiş kaynakların sayısını simge üzerinde göster",
+        "description": ""
+    },
+    "settingsMatrixDisplayColorBlind": {
+        "message": "Renk körü dostu",
+        "description": ""
+    },
+    "settingsMatrixConvenienceHeader": {
+        "message": "Uygunluk",
+        "description": "English: Convenience"
+    },
+    "settingsDefaultScopeLevel": {
+        "message": "Varsayılan kapsam seviyesi:",
+        "description": "Label for default scope level selector in Settings pane"
+    },
+    "settingsDefaultScopeLevel0": {
+        "message": "Genel",
+        "description": "Scope will be global"
+    },
+    "settingsDefaultScopeLevel1": {
+        "message": "Alan adı",
+        "description": "Scope will be base domain"
+    },
+    "settingsDefaultScopeLevel2": {
+        "message": "Site",
+        "description": "Scope will be full hostname of site"
+    },
+    "settingsCollapseBlocked": {
+        "message": "Engellenmiş elementlerin yertutucularını daralt",
+        "description": "A setting in the dashboard's Settings pane"
+    },
+    "settingsCollapseBlacklisted": {
+        "message": "Kara listeye alınan elemanların yer tutucusunu gizle",
+        "description": "A setting in the dashboard's Settings pane: 'blacklisted' means 'for which there is a specific block rule', 'specific' means 'a rule for which the destination hostname is not `*`'"
+    },
+    "settingsNoscriptTagsSpoofed": {
+        "message": "1. taraf betikler engellendiğinde <code><noscript></code> etiketlerini aldat",
+        "description": "This appears in the Settings pane in the dashboard"
+    },
+    "settingsCloudStorageEnabled": {
+        "message": "Bulut depo desteğini etkinleştir",
+        "description": ""
+    },
+    "settingsMatrixNoTooltips": {
+        "message": "Araç ipuçlarını devre dışı bırak",
+        "description": ""
+    },
+    "privacyPageTitle": {
+        "message": "uMatrix &ndash; Gizlilik",
+        "description": ""
+    },
+    "privacyDeleteBlockedCookiesPrompt": {
+        "message": "Engellenmiş çerezleri sil.",
+        "description": ""
+    },
+    "privacyDeleteBlockedCookiesHelp": {
+        "message": "<p>Kara listelenmiş çerezlerin tarayıcınıza girmesi <i>uMatrix</i> tarafından önlenmez. Ancak tarayıcınızdan çıkışları önlenir, önemli olan da budur. Çerezlerin tarayıcınıza girişi önlenmeyerek sitenin çerez kullanımı hakkında bilgi sahibi olma fırsatını elde edersiniz ve üstelik dilerseniz içeriklerini de denetleyebilirsiniz.</p><p>Bu engellenmiş çerezler bir kere <i>uMatrix</i> tarafından raporlandıktan sonra eğer isterseniz tabi tarayıcınızdan kaldırılabilir.</p><p><b>Önemli not:</b> Eklentiler normal işleyişleri sırasında web isteği yapabilir. Bu istekler tarayıcınızda çerez oluşumuna neden olur. Bu seçenek işaretli ve çerezin geldiği alan adı beyaz listede değilse bu çerez <i>uMatrix</i> tarafından tarayıcınızdan kaldırılacaktır. Bu yüzden eklentilerin iletişim kurduğu alan ad(lar)ının beyaz listede bulunduğundan emin olunuz.</p>",
+        "description": ""
+    },
+    "privacyDeleteNonBlockedSessionCookiesPrompt1": {
+        "message": "Engellenmemiş oturum çerezlerini son kullanımlarından ",
+        "description": "First part of 'Delete non-blocked session cookies [n] minutes after the last time they have been used'"
+    },
+    "privacyDeleteNonBlockedSessionCookiesPrompt2": {
+        "message": " dakika sonra sil.",
+        "description": "Second part of 'Delete non-blocked session cookies [n] minutes after the last time they have been used'"
+    },
+    "privacyDeleteNonBlockedSessionCookiesHelp": {
+        "message": "<p><a href='http://www.w3.org/2001/tag/2010/09/ClientSideStorage.html'>W3C</a>: &ldquo;Bir oturum çerezi ... tarayıcı oturumu sonlandığında silinir. Oturum çerezi geçici bellekte depolanır ve tarayıcı kapandıktan sonra muhafaza edilmez.&rdquo;</p><p>Bazı tarayıcıları kullanırken <a href='https://code.google.com/p/chromium/issues/detail?id=128513'>bu durum gerçekleşmeyebilir.</a> Ayrıca, bazılarımız için, oturum çerezlerinin temizlenmesi için tarayıcının kapatılması yeteri kadar erken olmayabilir.</p>",
+        "description": ""
+    },
+    "privacyDeleteBlockedLocalStoragePrompt": {
+        "message": "Engellenmiş alan adları tarafından oluşturulmuş <a href='https://en.wikipedia.org/wiki/Web_storage'>Yerel depolama</a> içeriğini sil",
+        "description": ""
+    },
+    "privacyDeleteBlockedLocalStorageHelp": {
+        "message": "Yapılacaklar",
+        "description": ""
+    },
+    "privacyClearCachePrompt1": {
+        "message": "Tarayıcı önbelleğini her",
+        "description": "First part of 'Clear browser cache every [n] minutes'"
+    },
+    "privacyClearCachePrompt2": {
+        "message": "dakikada bir temizle.",
+        "description": "Second part of 'Clear browser cache every [n] minutes'"
+    },
+    "privacyClearCacheHelp": {
+        "message": "<p>Bazı web siteleri sizi izlemekte çok kararlıdır, izlenmemek için aldığınız her ne önlem varsa bunları aşmak için hoş olmayan hileli yöntemler kullanacaklardır.</p><p>Bu hilelerden bazıları <a href='https://en.wikipedia.org/wiki/Web_cache'>tarayıcı önbelleği</a> <sup>[1, 2]</sup>'ye dayalıdır, kullanıcı düzenli olarak tarayıcısının geçmişini temizlemediği için içerik çok uzun süre tarayıcıda kalır.</p><p>Tarayıcı önbelleğini düzenli olarak temizlemek biraz zahmetlidir (temizlendiğinde ise muhtemelen farkına varmazsınız) ve faydası ise kötü izleyicilerin gizliliğinizi ihlal etmesinin önüne geçmiş olursunuz.</p><p>Bu seçeneği işaretleyerek belirli aralıklarla bu işlemi sizin yerinize <i>uMatrix</i> yapabilir.</p><p>[1]<a href='https://grepular.com/Preventing_Web_Tracking_via_the_Browser_Cache'>&ldquo;Tarayıcı Önbelleği ile Web İzlemesini Önlemek&rdquo;</a>\n[2]<a href='http://lucb1e.com/rp/cookielesscookies/'>&ldquo;Çerezsiz çerezler&rdquo;</a></p>",
+        "description": ""
+    },
+    "privacyProcessRefererPrompt": {
+        "message": "Üçüncü taraf isteklerin <a href='https://en.wikipedia.org/wiki/HTTP_referer'>HTTP başvuran</a> bilgisini aldat.",
+        "description": ""
+    },
+    "privacyProcessRefererHelp": {
+        "message": "Wikipedia'dan:<blockquote>HTTP başvuran bilgisi bir web sayfasına hangi bağlantıdan geldiğinizi içeren HTTP başlığıdır. ... <b>Çünkü başvuran bilgisi gizliliğinizi ihlal edebilir, bazı web tarayıcıları bu bilginin gönderimini devre dışı bırakmanıza izin verebilir.</b></blockquote>Bu ayar işaretliyse, <i>uMatrix</i> HTTP başvuran bilgisinin alan adı, istek yapılan alan adına göre üçüncü taraf ise bu bilgiyi aldatacaktır.",
+        "description": ""
+    },
+    "privacyNoMixedContentPrompt": {
+        "message": "Katı HTTPS: Karışık içeriği yasakla.",
+        "description": ""
+    },
+    "privacyNoMixedContentHelp": {
+        "message": "<p><a href='https://developer.mozilla.org/en-US/docs/Security/MixedContent'>Mozilla Geliştiriciler Ağ'ından</a>:</p><blockquote>HTTPS sayfası sıradan bir içerik barındırıyorsa, düz metin HTTP, o bağlantı yalnızca kısmen şifrelenmiştir: şifrelenmemiş içerik, koklayıcı erişimine açık ve araya giren saldırıları tarafından değiştirilebilir durumdadır, bu nedenle artık bağlantı güvence altında değildir. Bu davranışı sergileyen web sayfasına, karışık içerikli sayfa denir.</blockquote>",
+        "description": ""
+    },
+    "privacyProcessHyperlinkAuditingPrompt": {
+        "message": "Tüm <a href='https://html.spec.whatwg.org/multipage/semantics.html#hyperlink-auditing'>hiperbağlaç denetim</a> girişimlerini engelle.",
+        "description": ""
+    },
+    "privacyProcessHyperlinkAuditingHelp": {
+        "message": "<p>Köprü denetimi, kullanıcının web sayfasında hangi bağlantıya tıkladığını bir tarafa bildiren, <b>herhangi bir tarafa</b>, mekanizmadır. Esasen bir izleme özelliğidir: Bir web sitesinin veya o siteye bağlı üçüncü tarafın o sitenin hangi sayfasında hangi bağlantıya tıkladığınızı bilmesine olanak sağlar. Bunun tek amacı sizin tarayıcı etkinliğinizi izlemektir.</p>",
+        "description": ""
+    },
+    "userRulesPermanentHeader": {
+        "message": "Kalıcı kurallar",
+        "description": ""
+    },
+    "userRulesTemporaryHeader": {
+        "message": "Geçici kurallar",
+        "description": ""
+    },
+    "userRulesRevert": {
+        "message": "Geri al",
+        "description": "Will remove all temporary rules"
+    },
+    "userRulesCommit": {
+        "message": "İşle",
+        "description": "Will save all temporary rules"
+    },
+    "userRulesEdit": {
+        "message": "Düzenle",
+        "description": "Will enable manual-edit mode (textarea)"
+    },
+    "userRulesEditSave": {
+        "message": "Kaydet",
+        "description": "Will save manually-edited content and exit manual-edit mode"
+    },
+    "userRulesEditDicard": {
+        "message": "İptal et",
+        "description": "Will discard manually-edited content and exit manual-edit mode"
+    },
+    "userRulesImport": {
+        "message": "Dosyadan içe aktar...",
+        "description": ""
+    },
+    "userRulesExport": {
+        "message": "Dosyaya aktar...",
+        "description": ""
+    },
+    "userRulesFormatHint": {
+        "message": "Kural sözdizimi için bu sayfaya bakın.",
+        "description": ""
+    },
+    "userRulesDefaultFileName": {
+        "message": "umatrix-kurallarim.txt",
+        "description": "default file name to use"
+    },
+    "assetsHostsSection": {
+        "message": "Alan adı dosyaları",
+        "description": "header to identify the hosts files section"
+    },
+    "hostsFilesPrompt": {
+        "message": "Alan adı dosyasındaki tüm alan adları genel kapsamda kara listeye yüklenir.",
+        "description": ""
+    },
+    "hostsFilesStats": {
+        "message": "{{blockedHostnameCount}} farklı engellenmiş alan adı:",
+        "description": ""
+    },
+    "hostsFilesPerFileStats": {
+        "message": "{{total}} süzgecin {{used}} adedi kullanıldı",
+        "description": ""
+    },
+    "hostsFilesLastUpdate": {
+        "message": "Son güncelleme: {{ago}}",
+        "description": "English: Last update: {{ago}}, where 'ago' will be replaced with something like '2 days ago'"
+    },
+    "hostsFilesApplyChanges": {
+        "message": "Değişiklikleri uygula",
+        "description": ""
+    },
+    "hostsFilesAutoUpdatePrompt": {
+        "message": "Varlıkları otomatik güncelle",
+        "description": ""
+    },
+    "hostsFilesUpdateNow": {
+        "message": "Şimdi güncelle",
+        "description": ""
+    },
+    "hostsFilesPurgeAll": {
+        "message": "Tüm önbellekleri temizle",
+        "description": ""
+    },
+    "hostsFilesExternalListsHint": {
+        "message": "Satır başına tek URL. &lsquo;#&rsquo; işareti ile başlayan satırlar yok sayılacaktır. Geçersiz URL'ler sessizcene yok sayılacaktır.",
+        "description": ""
+    },
+    "hostsFilesExternalListsParse": {
+        "message": "Çözümle",
+        "description": ""
+    },
+    "hostsFilesExternalListPurge": {
+        "message": "önbelleği temizle",
+        "description": ""
+    },
+    "hostsFilesExternalListNew": {
+        "message": "yeni sürüm mevcut",
+        "description": ""
+    },
+    "hostsFilesExternalListObsolete": {
+        "message": "eski",
+        "description": ""
+    },
+    "assetsRecipesSection": {
+        "message": "Kural seti tarifleri",
+        "description": "header to identify the ruleset files section"
+    },
+    "assetsRecipesSummary": {
+        "message": "Kural seti tarifleri <em>isteğe bağlı olarak</em>, <b>yalnızca</b> kullanıcı etkileşimi yoluyla, açılır panelden içe aktarılır.",
+        "description": ""
+    },
+    "assetsImportLabel": {
+        "message": "İçe aktar...",
+        "description": ""
+    },
+    "assetsInlineHostsLabel": {
+        "message": "Alan adlarım",
+        "description": ""
+    },
+    "assetsInlineRecipesLabel": {
+        "message": "Tariflerim",
+        "description": ""
+    },
+    "rawSettingsWarning": {
+        "message": "Uyarı! Bu ham yapılandırma ayarlarını değiştirmenin sorumluluğu size aittir.",
+        "description": ""
+    },
+    "aboutChangelog": {
+        "message": "<a href='https://github.com/gorhill/uMatrix/releases'>Değişim günlüğü</a>",
+        "description": ""
+    },
+    "aboutStorageUsed": {
+        "message": "Kullanılan depolama: {{storageUsed}} bayt",
+        "description": ""
+    },
+    "aboutDoc": {
+        "message": "<a href='https://github.com/gorhill/uMatrix/wiki'>Belgeler</a>",
+        "description": ""
+    },
+    "aboutPermissions": {
+        "message": "<a href='https://github.com/gorhill/uMatrix/wiki/Permissions'>İzinler</a>",
+        "description": ""
+    },
+    "aboutCode": {
+        "message": "Kaynak kodu (GPLv3)",
+        "description": ""
+    },
+    "aboutIssues": {
+        "message": "Sorun izleyici",
+        "description": "Text for a link to official issue tracker"
+    },
+    "aboutContributors": {
+        "message": "Katkıda bulunanlar",
+        "description": "English: Contributors"
+    },
+    "aboutCodeContributors": {
+        "message": "Kod:",
+        "description": ""
+    },
+    "aboutIssueContributors": {
+        "message": "Sorunlar:",
+        "description": ""
+    },
+    "aboutTranslationContributors": {
+        "message": "Çeviriler:",
+        "description": ""
+    },
+    "aboutUserDataHeader": {
+        "message": "Verileriniz",
+        "description": ""
+    },
+    "aboutBackupButton": {
+        "message": "Dosyaya yedekle...",
+        "description": ""
+    },
+    "aboutBackupFilename": {
+        "message": "umatrix-yedeklerim.txt",
+        "description": "default filename to use"
+    },
+    "aboutRestoreButton": {
+        "message": "Dosyadan geri yükle...",
+        "description": ""
+    },
+    "aboutRestoreConfirm": {
+        "message": "{{time}} zamanında yedeklenmiş veri kullanılarak tüm ayarlarınızın üzerine yazılacak ve uMatrix yeniden başlayacak.\n\nYedeklenmiş veri kullanılarak ayarlarınızın üzerine yazılsın mı?",
+        "description": "Message asking user to confirm restore"
+    },
+    "aboutRestoreError": {
+        "message": "Veri okunamadı veya geçersiz",
+        "description": ""
+    },
+    "aboutOr": {
+        "message": "... veya ...",
+        "description": "English: ... or ..."
+    },
+    "aboutResetButton": {
+        "message": "Varsayılan ayarlara sıfırla",
+        "description": "English: Reset to default settings"
+    },
+    "aboutResetConfirm": {
+        "message": "Uyarı! Bu işlem tüm kişisel ayarlarınızı kaldıracaktır. Devam etmek istediğinizden emin misiniz?",
+        "description": "Message asking user to confirm reset"
+    },
+    "mainBlockedPrompt1": {
+        "message": "uMatrix aşağıdaki sayfaların yüklenmesini engelledi:",
+        "description": "English: uMatrix has prevented the following page from loading:"
+    },
+    "mainBlockedPrompt2": {
+        "message": "Bu kural nedeniyle",
+        "description": "English: Because of the following rule"
+    },
+    "mainBlockedNoParamsPrompt": {
+        "message": "değişkensiz",
+        "description": "label to be used for the parameter-less URL: https://cloud.githubusercontent.com/assets/585534/9832014/bfb1b8f0-593b-11e5-8a27-fba472a5529a.png"
+    },
+    "mainBlockedBack": {
+        "message": "Geri git",
+        "description": "English: Go back"
+    },
+    "mainBlockedClose": {
+        "message": "Kapat",
+        "description": "English: Close"
+    },
+    "commandRevertAll": {
+        "message": "Geçici değişikliklerin tümünü geri al",
+        "description": ""
+    },
+    "commandWhitelistPageDomain": {
+        "message": "Sayfa alan adını geçici olarak beyaz listeye ekle",
+        "description": ""
+    },
+    "commandWhitelistAll": {
+        "message": "Tümünü geçici olarak beyaz listeye ekle",
+        "description": ""
+    },
+    "commandOpenDashboard": {
+        "message": "Kontrol paneli aç",
+        "description": ""
+    },
+    "elapsedOneMinuteAgo": {
+        "message": "bir dakika önce",
+        "description": "English: a minute ago"
+    },
+    "elapsedManyMinutesAgo": {
+        "message": "{{value}} dakika önce",
+        "description": "English: {{value}} minutes ago"
+    },
+    "elapsedOneHourAgo": {
+        "message": "bir saat önce",
+        "description": "English: an hour ago"
+    },
+    "elapsedManyHoursAgo": {
+        "message": "{{value}} saat önce",
+        "description": "English: {{value}} hours ago"
+    },
+    "elapsedOneDayAgo": {
+        "message": "bir gün önce",
+        "description": "English: a day ago"
+    },
+    "elapsedManyDaysAgo": {
+        "message": "{{value}} gün önce",
+        "description": "English: {{value}} days ago"
+    },
+    "showDashboardButton": {
+        "message": "Kontrol Paneli",
+        "description": "Appears in Firefox's add-on preferences"
+    },
+    "showLoggerButton": {
+        "message": "Günlükçü",
+        "description": "Appears in Firefox's add-on preferences"
+    },
+    "cloudPush": {
+        "message": "Bulut depoya aktar",
+        "description": "tooltip"
+    },
+    "cloudPull": {
+        "message": "Bulut depodan al",
+        "description": "tooltip"
+    },
+    "cloudNoData": {
+        "message": "...\n...",
+        "description": ""
+    },
+    "cloudDeviceNamePrompt": {
+        "message": "Bu cihazın adı:",
+        "description": "used as a prompt for the user to provide a custom device name"
+    },
+    "genericSubmit": {
+        "message": "Gönder",
+        "description": "for generic 'submit' buttons"
+    },
+    "genericRevert": {
+        "message": "Geri al",
+        "description": "for generic 'revert' buttons"
+    },
+    "errorCantConnectTo": {
+        "message": "Ağ hatası: {{url}} adresine bağlanılamıyor",
+        "description": ""
+    },
+    "genericApplyChanges": {
+        "message": "Değişiklikleri uygula",
+        "description": "for generic 'Apply changes' buttons"
+    },
+    "genericCopyToClipboard": {
+        "message": "Panoya kopyala",
+        "description": "Label for buttons used to copy something to the clipboard"
+    }
+}

@@ -1,7 +1,7 @@
 /*******************************************************************************
 
-    µBlock - a Chromium browser extension to block requests.
-    Copyright (C) 2014 Raymond Hill
+    µBlock - a browser extension to block requests.
+    Copyright (C) 2014-2017 Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,7 +19,11 @@
     Home: https://github.com/gorhill/uBlock
 */
 
-/******************************************************************************/
+/* global DOMTokenList */
+/* exported uDom */
+
+'use strict';
+
 /******************************************************************************/
 
 // It's just a silly, minimalist DOM framework: this allows me to not rely
@@ -54,9 +58,6 @@ var DOMListFactory = function(selector, context) {
     var r = new DOMList();
     if ( typeof selector === 'string' ) {
         selector = selector.trim();
-        if ( selector.charAt(0) === '<' ) {
-            return addHTMLToList(r, selector);
-        }
         if ( selector !== '' ) {
             return addSelectorToList(r, selector, context);
         }
@@ -77,6 +78,16 @@ var DOMListFactory = function(selector, context) {
 
 DOMListFactory.onLoad = function(callback) {
     window.addEventListener('load', callback);
+};
+
+/******************************************************************************/
+
+DOMListFactory.nodeFromId = function(id) {
+    return document.getElementById(id);
+};
+
+DOMListFactory.nodeFromSelector = function(selector) {
+    return document.querySelector(selector);
 };
 
 /******************************************************************************/
@@ -121,51 +132,6 @@ var addSelectorToList = function(list, selector, context) {
 
 /******************************************************************************/
 
-var pTagOfChildTag = {
-    'tr': 'table',
-    'option': 'select'
-};
-
-// TODO: documentFragment
-
-var addHTMLToList = function(list, html) {
-    var matches = html.match(/^<([a-z]+)/);
-    if ( !matches || matches.length !== 2 ) {
-        return this;
-    }
-    var cTag = matches[1];
-    var pTag = pTagOfChildTag[cTag] || 'div';
-    var p = document.createElement(pTag);
-    p.innerHTML = html;
-    // Find real parent
-    var c = p.querySelector(cTag);
-    p = c.parentNode;
-    while ( p.firstChild ) {
-        list.nodes.push(p.removeChild(p.firstChild));
-    }
-    return list;
-};
-
-/******************************************************************************/
-
-var isChildOf = function(child, parent) {
-    return child !== null && parent !== null && child.parentNode === parent;
-};
-
-/******************************************************************************/
-
-var isDescendantOf = function(descendant, ancestor) {
-    while ( descendant.parentNode !== null ) {
-        if ( descendant.parentNode === ancestor ) {
-            return true;
-        }
-        descendant = descendant.parentNode;
-    }
-    return false;
-};
-
-/******************************************************************************/
-
 var nodeInNodeList = function(node, nodeList) {
     var i = nodeList.length;
     while ( i-- ) {
@@ -206,14 +172,8 @@ var doesMatchSelector = function(node, selector) {
 
 /******************************************************************************/
 
-DOMList.prototype.length = function() {
-    return this.nodes.length;
-};
-
-/******************************************************************************/
-
 DOMList.prototype.nodeAt = function(i) {
-    return this.nodes[i];
+    return this.nodes[i] || null;
 };
 
 DOMList.prototype.at = function(i) {
@@ -224,6 +184,12 @@ DOMList.prototype.at = function(i) {
 
 DOMList.prototype.toArray = function() {
     return this.nodes.slice();
+};
+
+/******************************************************************************/
+
+DOMList.prototype.pop = function() {
+    return addNodeToList(new DOMList(), this.nodes.pop());
 };
 
 /******************************************************************************/
@@ -370,7 +336,7 @@ DOMList.prototype.remove = function() {
     var i = this.nodes.length;
     while ( i-- ) {
         cn = this.nodes[i];
-        if ( p = cn.parentNode ) {
+        if ( (p = cn.parentNode) ) {
             p.removeChild(cn);
         }
      }
@@ -485,6 +451,28 @@ DOMList.prototype.clone = function(notDeep) {
 
 /******************************************************************************/
 
+DOMList.prototype.nthOfType = function() {
+    if ( this.nodes.length === 0 ) {
+        return 0;
+    }
+    var node = this.nodes[0];
+    var tagName = node.tagName;
+    var i = 1;
+    while ( node.previousElementSibling !== null ) {
+        node = node.previousElementSibling;
+        if ( typeof node.tagName !== 'string' ) {
+            continue;
+        }
+        if ( node.tagName !== tagName ) {
+            continue;
+        }
+        i++;
+    }
+    return i;
+};
+
+/******************************************************************************/
+
 DOMList.prototype.attr = function(attr, value) {
     var i = this.nodes.length;
     if ( value === undefined && typeof attr !== 'object' ) {
@@ -529,8 +517,14 @@ DOMList.prototype.css = function(prop, value) {
     if ( value === undefined ) {
         return i ? this.nodes[0].style[prop] : undefined;
     }
+    if ( value !== '' ) {
+        while ( i-- ) {
+            this.nodes[i].style.setProperty(prop, value);
+        }
+        return this;
+    }
     while ( i-- ) {
-        this.nodes[i].style[prop] = value;
+        this.nodes[i].style.removeProperty(prop);
     }
     return this;
 };
@@ -549,7 +543,7 @@ DOMList.prototype.html = function(html) {
         return i ? this.nodes[0].innerHTML : '';
     }
     while ( i-- ) {
-        this.nodes[i].innerHTML = html;
+        vAPI.insertHTML(this.nodes[i], html);
     }
     return this;
 };
@@ -643,6 +637,24 @@ DOMList.prototype.toggleClasses = function(classNames, targetState) {
 
 /******************************************************************************/
 
+var listenerEntries = [];
+
+var ListenerEntry = function(target, type, capture, callback) {
+    this.target = target;
+    this.type = type;
+    this.capture = capture;
+    this.callback = callback;
+    target.addEventListener(type, callback, capture);
+};
+
+ListenerEntry.prototype.dispose = function() {
+    this.target.removeEventListener(this.type, this.callback, this.capture);
+    this.target = null;
+    this.callback = null;
+};
+
+/******************************************************************************/
+
 var makeEventHandler = function(selector, callback) {
     return function(event) {
         var dispatcher = event.currentTarget;
@@ -666,7 +678,7 @@ DOMList.prototype.on = function(etype, selector, callback) {
 
     var i = this.nodes.length;
     while ( i-- ) {
-        this.nodes[i].addEventListener(etype, callback, selector !== undefined);
+        listenerEntries.push(new ListenerEntry(this.nodes[i], etype, selector !== undefined, callback));
     }
     return this;
 };
@@ -694,6 +706,20 @@ DOMList.prototype.trigger = function(etype) {
     }
     return this;
 };
+
+/******************************************************************************/
+
+// Cleanup
+
+var onBeforeUnload = function() {
+    var entry;
+    while ( (entry = listenerEntries.pop()) ) {
+        entry.dispose();
+    }
+    window.removeEventListener('beforeunload', onBeforeUnload);
+};
+
+window.addEventListener('beforeunload', onBeforeUnload);
 
 /******************************************************************************/
 

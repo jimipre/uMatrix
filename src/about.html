@@ -2,10 +2,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>µMatrix — About</title>
+<title>uMatrix — About</title>
 <link rel="stylesheet" type="text/css" href="css/common.css">
 <link rel="stylesheet" type="text/css" href="css/dashboard-common.css">
 <style>
+div.body > ul {
+    padding-left: 0;
+    padding-right: 0;
+}
 ul {
     list-style-type: none;
 }
@@ -13,25 +17,32 @@ ul {
 </head>
 
 <body>
+<div class="body">
 
-<h2>µMatrix <span id="aboutVersion"></span></h2>
+<h3>uMatrix <span id="aboutVersion"></span></h3>
 <ul>
+    <li>Copyright (c) Raymond Hill 2013-present<br>
+    <li>&nbsp;
     <li><span id="aboutStorageUsed"></span><br>
     <li>&nbsp;
     <li><span data-i18n="aboutChangelog"></span><br>
     <li><a href="https://github.com/gorhill/uMatrix/wiki"><span data-i18n="aboutDoc"></span></a><br>
     <li><span data-i18n="aboutPermissions"></span><br>
     <li><a href="https://github.com/gorhill/uMatrix" data-i18n="aboutCode"></a><br>
-    <li><a href="https://github.com/gorhill/uMatrix/issues" data-i18n="aboutIssues"></a><br>
+    <li><a href="https://github.com/uBlockOrigin/uMatrix-issues/issues" data-i18n="aboutIssues"></a><br>
     <li><span data-i18n="aboutContributors"></span>
         <ul>
-            <li><span data-i18n="aboutCodeContributors"></span> <a href="https://github.com/gorhill/uMatrix/graphs/contributors">µMatrix, <a href="https://github.com/gorhill/httpswitchboard/graphs/contributors">HTTP Switchboard</a>
-            <li><span data-i18n="aboutIssueContributors"></span> <a href="https://github.com/gorhill/uMatrix/issues?q=is%3Aissue">µMatrix</a>, <a href="https://github.com/gorhill/httpswitchboard/issues?q=is%3Aissue">HTTP Switchboard</a>
+            <li><span data-i18n="aboutCodeContributors"></span> <a href="https://github.com/gorhill/uMatrix/graphs/contributors">uMatrix, <a href="https://github.com/gorhill/httpswitchboard/graphs/contributors">HTTP Switchboard</a>
+            <li><span data-i18n="aboutIssueContributors"></span> <a href="https://github.com/gorhill/uMatrix/issues?q=is%3Aissue">uMatrix</a>, <a href="https://github.com/gorhill/httpswitchboard/issues?q=is%3Aissue">HTTP Switchboard</a>
             <li><span data-i18n="aboutTranslationContributors"></span> <a href="https://github.com/gorhill/uMatrix/wiki/Translation-work-contributors">Crowdin</a>
         </ul>
+    <li><a href="https://github.com/bestiejs/punycode.js" target="_blank">Punycode.js</a> by <a href="https://github.com/mathiasbynens">Mathias Bynens</a>
+    <li><a href="https://fontawesome.com/" target="_blank">Font Awesome</a> by <a href="https://github.com/davegandy">Dave Gandy</a>
+    <li><a href="https://codemirror.net/" target="_blank">CodeMirror</a> by <a href="https://github.com/marijnh">Marijn Haverbeke</a>
+    <li><a href="https://github.com/Swatinem/diff" target="_blank">An implementation of Myers' diff algorithm</a> by <a href="https://github.com/Swatinem">Arpad Borsos</a>
 </ul>
 
-<h2 data-i18n="aboutUserDataHeader"></h2>
+<h3 data-i18n="aboutUserDataHeader"></h3>
 <div>
     <p><button type="button" id="backupUserDataButton" data-i18n="aboutBackupButton"></button>
     <button type="button" id="restoreUserDataButton" data-i18n="aboutRestoreButton"></button>
@@ -40,17 +51,22 @@ ul {
     <p><button type="button" id="resetUserDataButton" data-i18n="aboutResetButton"></button>
 </div>
 
-<span style="display: none;" data-i18n="aboutStorageUsed"></span>
-<span style="display: none;" data-i18n="aboutBackupFilename"></span>
-<span style="display: none;" data-i18n="aboutRestoreConfirm"></span>
-<span style="display: none;" data-i18n="aboutRestoreError"></span>
-<span style="display: none;" data-i18n="aboutResetConfirm"></span>
+</div><!-- end of div.body -->
 
+<div style="display: none;">
+    <span data-i18n="aboutStorageUsed"></span>
+    <span data-i18n="aboutBackupFilename"></span>
+    <span data-i18n="aboutRestoreConfirm"></span>
+    <span data-i18n="aboutRestoreError"></span>
+    <span data-i18n="aboutResetConfirm"></span>
+</div>
 
+<script src="js/vapi.js"></script>
+<script src="js/vapi-common.js"></script>
+<script src="js/vapi-client.js"></script>
 <script src="js/udom.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/dashboard-common.js"></script>
-<script src="js/messaging-client.js"></script>
 <script src="js/about.js"></script>
 
 </body>

@@ -1,0 +1,20 @@
+{
+	"browser": true,
+	"devel": true,
+	"eqeqeq": true,
+	"esversion": 8,
+	"globals": {
+		"browser": false,    // global variable in Firefox, Edge
+		"self": false,
+		"chrome": false,
+		"log": false,
+		"webext": false,
+		"vAPI": false,
+		"µMatrix": false
+	},
+	"laxbreak": true,
+	"strict": "global",
+	"undef": true,
+	"unused": true,
+	"validthis": true
+}

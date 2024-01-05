@@ -1,7 +1,7 @@
 /*******************************************************************************
 
-    µMatrix - a Chromium browser extension to black/white list requests.
-    Copyright (C) 2014  Raymond Hill
+    uMatrix - a browser extension to black/white list requests.
+    Copyright (C) 2014-present Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,127 +19,216 @@
     Home: https://github.com/gorhill/uMatrix
 */
 
-/* global chrome */
+'use strict';
 
 /******************************************************************************/
 
-var µMatrix = (function() {
+const µMatrix = (( ) => { // jshint ignore:line
 
 /******************************************************************************/
 
-var oneSecond = 1000;
-var oneMinute = 60 * oneSecond;
-var oneHour = 60 * oneMinute;
-var oneDay = 24 * oneHour;
+const oneSecond = 1000;
+const oneMinute = 60 * oneSecond;
+const oneHour = 60 * oneMinute;
+const oneDay = 24 * oneHour;
 
-/******************************************************************************/
+/*******************************************************************************
 
-var defaultUserAgentStrings = [
-    '# http://www.useragentstring.com/pages/Chrome/',
-    '# http://techblog.willshouse.com/2012/01/03/most-common-user-agents/',
-    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/600.1.17 (KHTML, like Gecko) Version/7.1 Safari/537.85.10',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/600.1.25 (KHTML, like Gecko) Version/8.0 Safari/600.1.25',
-    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36',
-    'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36'
-].join('\n');
+    SVG-based icons below were extracted from
+    fontawesome-webfont.svg v4.7. Excerpt of copyright notice at
+    the top of the file:
+
+    > Created by FontForge 20120731 at Mon Oct 24 17:37:40 2016
+    > By ,,,
+    > Copyright Dave Gandy 2016. All rights reserved.
+
+    Excerpt of the license information in the fontawesome CSS
+    file bundled with the package:
+
+    > Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
+    > License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+
+    Font icons:
+    - glyph-name: "external_link"
+
+*/
+
+const rawSettingsDefault = {
+    assetFetchBypassBrowserCache: false,
+    assetFetchTimeout: 30,
+    autoUpdateAssetFetchPeriod: 120,
+    cacheStorageAPI: 'unset',
+    cacheStorageCompression: true,
+    cnameIgnoreList: 'unset',
+    cnameIgnore1stParty: true,
+    cnameIgnoreExceptions: true,
+    cnameIgnoreRootDocument: true,
+    cnameMaxTTL: 60,
+    cnameReplayFullURL: false,
+    consoleLogLevel: 'unset',
+    contributorMode: false,
+    disableCSPReportInjection: false,
+    disableWebAssembly: false,
+    enforceEscapedFragment: true,
+    loggerPopupType: 'popup',
+    manualUpdateAssetFetchPeriod: 500,
+    placeholderBackground:
+        [
+            'url("data:image/png;base64,',
+                'iVBORw0KGgoAAAANSUhEUgAAAAoAAAAK',
+                'CAAAAACoWZBhAAAABGdBTUEAALGPC/xh',
+                'BQAAAAJiS0dEAP+Hj8y/AAAAB3RJTUUH',
+                '3wwIAAgyL/YaPAAAACJJREFUCFtjfMbO',
+                'AAQ/gZiFnQPEBAEmGIMIJgtIL8QEgtoA',
+                'In4D/96X1KAAAAAldEVYdGRhdGU6Y3Jl',
+                'YXRlADIwMTUtMTItMDhUMDA6MDg6NTAr',
+                'MDM6MDAasuuJAAAAJXRFWHRkYXRlOm1v',
+                'ZGlmeQAyMDE1LTEyLTA4VDAwOjA4OjUw',
+                'KzAzOjAwa+9TNQAAAABJRU5ErkJggg==',
+            '") ',
+            'repeat scroll #fff'
+        ].join(''),
+    placeholderBorder: '1px solid rgba(0, 0, 0, 0.1)',
+    imagePlaceholder: true,
+    imagePlaceholderBackground: 'default',
+    imagePlaceholderBorder: 'default',
+    framePlaceholder: true,
+    framePlaceholderDocument:
+        [
+            '<html><head>',
+            '<meta charset="utf-8">',
+            '<style>',
+            'body { ',
+                'background: {{bg}};',
+                'color: gray;',
+                'font: 12px sans-serif;',
+                'margin: 0;',
+                'overflow: hidden;',
+                'padding: 2px;',
+                'white-space: nowrap;',
+            '}',
+            'a { ',
+                'color: inherit;',
+                'padding: 0 3px;',
+                'text-decoration: none;',
+            '}',
+            'svg {',
+                'display: inline-block;',
+                'fill: gray;',
+                'height: 12px;',
+                'vertical-align: bottom;',
+                'width: 12px;',
+            '}',
+            '</style></head><body>',
+            '<span><a href="{{url}}" title="{{url}}" target="_blank">',
+            '<svg viewBox="0 0 1792 1792"><path transform="scale(1,-1) translate(0,-1536)" d="M1408 608v-320q0 -119 -84.5 -203.5t-203.5 -84.5h-832q-119 0 -203.5 84.5t-84.5 203.5v832q0 119 84.5 203.5t203.5 84.5h704q14 0 23 -9t9 -23v-64q0 -14 -9 -23t-23 -9h-704q-66 0 -113 -47t-47 -113v-832q0 -66 47 -113t113 -47h832q66 0 113 47t47 113v320q0 14 9 23t23 9h64q14 0 23 -9t9 -23zM1792 1472v-512q0 -26 -19 -45t-45 -19t-45 19l-176 176l-652 -652q-10 -10 -23 -10t-23 10l-114 114q-10 10 -10 23t10 23l652 652l-176 176q-19 19 -19 45t19 45t45 19h512q26 0 45 -19t19 -45z" /></svg>',
+            '</a>{{url}}</span>',
+            '</body></html>'
+        ].join(''),
+    framePlaceholderBackground: 'default',
+    suspendTabsUntilReady: 'unset'
+};
 
 /******************************************************************************/
 
 return {
-    manifest: chrome.runtime.getManifest(),
+    onBeforeStartQueue: [],
 
     userSettings: {
-        autoUpdate: false,
+        alwaysDetachLogger: false,
+        autoUpdate: true,
         clearBrowserCache: true,
         clearBrowserCacheAfter: 60,
+        cloudStorageEnabled: false,
+        collapseBlacklisted: true,
+        collapseBlocked: false,
         colorBlindFriendly: false,
         deleteCookies: false,
         deleteUnusedSessionCookies: false,
         deleteUnusedSessionCookiesAfter: 60,
         deleteLocalStorage: false,
-        displayTextSize: '13px',
-        externalHostsFiles: '',
-        maxLoggedRequests: 50,
-        popupCollapseDomains: false,
-        popupCollapseSpecificDomains: {},
-        popupHideBlacklisted: false,
+        displayTextSize: '14px',
+        externalHostsFiles: [],
+        externalRecipeFiles: [],
+        iconBadgeEnabled: true,
+        noTooltips: false,
+        popupCollapseAllDomains: false,
+        popupCollapseBlacklistedDomains: false,
         popupScopeLevel: 'domain',
-        processBehindTheSceneRequests: false,
         processHyperlinkAuditing: true,
-        processReferer: false,
-        smartAutoReload: 'current',
-        spoofUserAgent: false,
-        spoofUserAgentEvery: 5,
-        spoofUserAgentWith: defaultUserAgentStrings,
-        statsFilters: {},
-        subframeColor: '#cc0000',
-        subframeOpacity: 100
-    },
-
-    clearBrowserCacheCycle: 0,
-    updateAssetsEvery: 11 * oneDay + 1 * oneHour + 1 * oneMinute + 1 * oneSecond,
-    firstUpdateAfter: 11 * oneMinute,
-    nextUpdateAfter: 11 * oneHour,
-    projectServerRoot: 'https://raw.githubusercontent.com/gorhill/umatrix/master/',
-    pslPath: 'assets/thirdparties/publicsuffix.org/list/effective_tld_names.dat',
-
-    // permanent hosts files
-    permanentHostsFiles: {
-        // µMatrix
-        'assets/umatrix/blacklist.txt': {
-            title: 'µMatrix hosts file'
+        selectedHostsFiles: [ '' ],
+        selectedRecipeFiles: [ '' ],
+        userHosts: {
+            enabled: false,
+            content: ''
+        },
+        userRecipes: {
+            enabled: false,
+            content: ''
         }
     },
 
+    rawSettingsDefault,
+    rawSettings: (( ) => {
+        const out = Object.assign({}, rawSettingsDefault);
+        const json = vAPI.localStorage.getItem('immediateRawSettings');
+        if ( typeof json !== 'string' ) { return out; }
+        try {
+            const o = JSON.parse(json);
+            if ( o instanceof Object ) {
+                for ( const k in o ) {
+                    if ( out.hasOwnProperty(k) ) { out[k] = o[k]; }
+                }
+                self.log.verbosity = out.consoleLogLevel;
+                if ( typeof out.suspendTabsUntilReady === 'boolean' ) {
+                    out.suspendTabsUntilReady = out.suspendTabsUntilReady
+                        ? 'yes'
+                        : 'unset';
+                }
+            }
+        }
+        catch(ex) {
+        }
+        return out;
+    })(),
+    rawSettingsWriteTime: 0,
+
+    clearBrowserCacheCycle: 0,
+    cspNoInlineScript: "script-src 'unsafe-eval' blob: *",
+    cspNoInlineStyle: "style-src blob: *",
+    cspNoWorker: "worker-src 'none'; report-uri about:blank",
+    cantMergeCSPHeaders: false,
+    updateAssetsEvery: 11 * oneDay + 1 * oneHour + 1 * oneMinute + 1 * oneSecond,
+    firstUpdateAfter: 11 * oneMinute,
+    nextUpdateAfter: 11 * oneHour,
+    assetsBootstrapLocation: 'assets/assets.json',
+    pslAssetKey: 'public_suffix_list.dat',
+
     // list of live hosts files
-    liveHostsFiles: {
-    },
+    liveHostsFiles: new Map(),
 
     // urls stats are kept on the back burner while waiting to be reactivated
     // in a tab or another.
-    pageStats: {}, // TODO: rename
-
-    // A map of redirects, to allow reverse lookup of redirects from landing
-    // page, so that redirection can be reported to the user.
-    redirectRequests: {}, 
-
-    // tabs are used to redirect stats collection to a specific url stats
-    // structure.
-    pageUrlToTabId: {},
-    tabIdToPageUrl: {},
+    pageStores: new Map(),
+    pageStoresToken: 0,
+    pageStoreCemetery: new Map(),
 
     // page url => permission scope
     tMatrix: null,
     pMatrix: null,
 
     ubiquitousBlacklist: null,
+    ubiquitousBlacklistRef: null,
 
     // various stats
-    requestStats: new WebRequestStats(),
     cookieRemovedCounter: 0,
     localStorageRemovedCounter: 0,
     cookieHeaderFoiledCounter: 0,
-    refererHeaderFoiledCounter: 0,
     hyperlinkAuditingFoiledCounter: 0,
     browserCacheClearedCounter: 0,
-    storageQuota: chrome.storage.local.QUOTA_BYTES,
-    storageUsed: 0,
-    userAgentReplaceStr: '',
-    userAgentReplaceStrBirth: 0,
 
-    // record what chromium is doing behind the scene
-    behindTheSceneURL: 'http://chromium-behind-the-scene/',
-    behindTheSceneTabId: 0x7FFFFFFF,
-    behindTheSceneMaxReq: 250,
-    behindTheSceneScope: 'chromium-behind-the-scene',
-
-    // Commonly encountered strings
-    chromeExtensionURLPrefix: 'chrome-extension://',
-    noopCSSURL: chrome.runtime.getURL('css/noop.css'),
-    fontCSSURL: chrome.runtime.getURL('css/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf'),
+    // record what the browser is doing behind the scene
+    behindTheSceneScope: 'behind-the-scene',
 
     noopFunc: function(){},
 

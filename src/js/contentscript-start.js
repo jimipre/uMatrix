@@ -1,7 +1,7 @@
 /*******************************************************************************
 
-    µMatrix - a Chromium browser extension to black/white list requests.
-    Copyright (C) 2014  Raymond Hill
+    uMatrix - a browser extension to black/white list requests.
+    Copyright (C) 2017-present Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,205 +19,71 @@
     Home: https://github.com/gorhill/uMatrix
 */
 
-/* jshint multistr: true */
-/* global chrome */
+'use strict';
+
+/******************************************************************************/
+/******************************************************************************/
 
 // Injected into content pages
 
-/******************************************************************************/
+(( ) => {
 
-// OK, I keep changing my mind whether a closure should be used or not. This
-// will be the rule: if there are any variables directly accessed on a regular
-// basis, use a closure so that they are cached. Otherwise I don't think the
-// overhead of a closure is worth it. That's my understanding.
+    if ( typeof vAPI !== 'object' ) { return; }
 
-(function() {
+    vAPI.selfWorkerSrcReported = vAPI.selfWorkerSrcReported || false;
 
-/******************************************************************************/
-/******************************************************************************/
+    const reGoodWorkerSrc = /(?:child|worker)-src[^;,]+?'none'/;
 
-// https://github.com/gorhill/httpswitchboard/issues/345
-
-var messaging = (function(name){
-    var port = null;
-    var requestId = 1;
-    var requestIdToCallbackMap = {};
-    var listenCallback = null;
-
-    var onPortMessage = function(details) {
-        if ( typeof details.id !== 'number' ) {
-            return;
+    const handler = function(ev) {
+        if (
+            ev.isTrusted !== true ||
+            ev.originalPolicy.includes('report-uri about:blank') === false
+        ) {
+            return false;
         }
-        // Announcement?
-        if ( details.id < 0 ) {
-            if ( listenCallback ) {
-                listenCallback(details.msg);
-            }
-            return;
+
+        // Firefox and Chromium differs in how they fill the
+        // 'effectiveDirective' property.
+        if (
+            ev.effectiveDirective.startsWith('worker-src') === false &&
+            ev.effectiveDirective.startsWith('child-src') === false
+        ) {
+            return false;
         }
-        var callback = requestIdToCallbackMap[details.id];
-        if ( !callback ) {
-            return;
+
+        // Further validate that the policy violation is relevant to uMatrix:
+        // the event still could have been fired as a result of a CSP header
+        // not injected by uMatrix.
+        if ( reGoodWorkerSrc.test(ev.originalPolicy) === false ) {
+            return false;
         }
-        // Must be removed before calling client to be sure to not execute
-        // callback again if the client stops the messaging service.
-        delete requestIdToCallbackMap[details.id];
-        callback(details.msg);
-    };
 
-    var start = function(name) {
-        port = chrome.runtime.connect({ name: name });
-        port.onMessage.addListener(onPortMessage);
-
-        // https://github.com/gorhill/uBlock/issues/193
-        port.onDisconnect.addListener(stop);
-    };
-
-    var stop = function() {
-        listenCallback = null;
-        port.disconnect();
-        port = null;
-        flushCallbacks();
-    };
-
-    if ( typeof name === 'string' && name !== '' ) {
-        start(name);
-    }
-
-    var ask = function(msg, callback) {
-        if ( port === null ) {
-            if ( typeof callback === 'function' ) {
-                callback();
-            }
-            return;
+        // We do not want to report internal resources more than once.
+        // However, we do want to report external resources each time.
+        // TODO: this could eventually lead to duplicated reports for external
+        //       resources if another extension uses the same approach as
+        //       uMatrix. Think about what could be done to avoid duplicate
+        //       reports.
+        if ( ev.blockedURI.includes('://') === false ) {
+            if ( vAPI.selfWorkerSrcReported ) { return true; }
+            vAPI.selfWorkerSrcReported = true;
         }
-        if ( callback === undefined ) {
-            tell(msg);
-            return;
-        }
-        var id = requestId++;
-        port.postMessage({ id: id, msg: msg });
-        requestIdToCallbackMap[id] = callback;
+
+        vAPI.messaging.send('contentscript.js', {
+            what: 'securityPolicyViolation',
+            directive: 'worker-src',
+            blockedURI: ev.blockedURI,
+            documentURI: ev.documentURI,
+            blocked: ev.disposition === 'enforce',
+        });
+
+        return true;
     };
 
-    var tell = function(msg) {
-        if ( port !== null ) {
-            port.postMessage({ id: 0, msg: msg });
-        }
-    };
-
-    var listen = function(callback) {
-        listenCallback = callback;
-    };
-
-    var flushCallbacks = function() {
-        var callback;
-        for ( var id in requestIdToCallbackMap ) {
-            if ( requestIdToCallbackMap.hasOwnProperty(id) === false ) {
-                continue;
-            }
-            callback = requestIdToCallbackMap[id];
-            if ( !callback ) {
-                continue;
-            }
-            // Must be removed before calling client to be sure to not execute
-            // callback again if the client stops the messaging service.
-            delete requestIdToCallbackMap[id];
-            callback();
-        }
-    };
-
-    return {
-        start: start,
-        stop: stop,
-        ask: ask,
-        tell: tell,
-        listen: listen
-    };
-})('contentscript-start.js');
-
-/******************************************************************************/
-/******************************************************************************/
-
-// If you play with this code, mind:
-//   https://github.com/gorhill/httpswitchboard/issues/261
-//   https://github.com/gorhill/httpswitchboard/issues/252
-
-var navigatorSpoofer = " \
-;(function() { \
-    try { \
-        var spoofedUserAgent = {{ua-json}}; \
-        if ( spoofedUserAgent === navigator.userAgent ) { \
-            return; \
-        } \
-        var realNavigator = navigator; \
-        var SpoofedNavigator = function(ua) { \
-            this.navigator = navigator; \
-        }; \
-        var spoofedNavigator = new SpoofedNavigator(spoofedUserAgent); \
-        var makeFunction = function(n, k) { \
-            n[k] = function() { \
-                return this.navigator[k].apply(this.navigator, arguments); }; \
-        }; \
-        for ( var k in realNavigator ) { \
-            if ( typeof realNavigator[k] === 'function' ) { \
-                makeFunction(spoofedNavigator, k); \
-            } else { \
-                spoofedNavigator[k] = realNavigator[k]; \
-            } \
-        } \
-        spoofedNavigator.userAgent = spoofedUserAgent; \
-        var pos = spoofedUserAgent.indexOf('/'); \
-        spoofedNavigator.appName = pos < 0 ? '' : spoofedUserAgent.slice(0, pos); \
-        spoofedNavigator.appVersion = pos < 0 ? spoofedUserAgent : spoofedUserAgent.slice(pos + 1); \
-        navigator = window.navigator = spoofedNavigator; \
-    } catch (e) { \
-    } \
-})();";
-
-/******************************************************************************/
-
-// Because window.userAgent is read-only, we need to create a fake Navigator
-// object to contain our fake user-agent string.
-// Because objects created by a content script are local to the content script
-// and not visible to the web page itself (and vice versa), we need the context
-// of the web page to create the fake Navigator object directly, and the only
-// way to do this is to inject appropriate javascript code into the web page.
-
-var injectNavigatorSpoofer = function(spoofedUserAgent) {
-    if ( typeof spoofedUserAgent !== 'string' ) {
-        return;
-    }
-    if ( spoofedUserAgent === navigator.userAgent ) {
-        return;
-    }
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.id = 'umatrix-ua-spoofer';
-    var js = document.createTextNode(navigatorSpoofer.replace('{{ua-json}}', JSON.stringify(spoofedUserAgent)));
-    script.appendChild(js);
-
-    try {
-        var parent = document.head || document.documentElement;
-        parent.appendChild(script);
-    }
-    catch (e) {
-    }
-};
-
-messaging.ask({ what: 'getUserAgentReplaceStr' }, injectNavigatorSpoofer);
-
-/******************************************************************************/
-/******************************************************************************/
-
-// The port will never be used again at this point, disconnecting allows
-// to browser to flush this script from memory.
-
-messaging.stop();
-
-/******************************************************************************/
-/******************************************************************************/
+    document.addEventListener('securitypolicyviolation', ev => {
+        if ( !handler(ev) ) { return; }
+        ev.stopPropagation();
+        ev.preventDefault();
+    }, true);
 
 })();
-
-/******************************************************************************/

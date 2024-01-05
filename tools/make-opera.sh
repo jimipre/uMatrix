@@ -2,19 +2,38 @@
 #
 # This script assumes a linux environment
 
-echo "*** µMatrix(Opera): Creating package"
-echo "*** µMatrix(Opera): Copying files"
-mkdir -p ./dist/uMatrix.opera
-cp -R ./src/*           ./dist/uMatrix.opera/
-cp -R ./assets          ./dist/uMatrix.opera/
-cp    ./meta/chromium/* ./dist/uMatrix.opera/
+echo "*** uMatrix.opera: Creating package"
+echo "*** uMatrix.opera: Copying files"
+
+DES=./dist/build/uMatrix.opera
+rm -r $DES
+mkdir -p $DES
+
+bash ./tools/make-assets.sh $DES
+
+cp -R ./src/*                           $DES/
+cp    ./platform/chromium/*.js          $DES/js/
+cp -R ./platform/chromium/img/*         $DES/img/
+cp    ./platform/chromium/manifest.json $DES/
+cp    LICENSE.txt                       $DES/
+
 # Copy only locales with fully translated description
-mkdir -p ./dist/uMatrix.opera/_locales
-cp -R ./tools/_locales/de    ./dist/uMatrix.opera/_locales/
-cp -R ./tools/_locales/en    ./dist/uMatrix.opera/_locales/
-cp -R ./tools/_locales/es    ./dist/uMatrix.opera/_locales/
-cp -R ./tools/_locales/fr    ./dist/uMatrix.opera/_locales/
-cp -R ./tools/_locales/he    ./dist/uMatrix.opera/_locales/
-cp -R ./tools/_locales/pt_BR ./dist/uMatrix.opera/_locales/
-cp -R ./tools/_locales/tr    ./dist/uMatrix.opera/_locales/
-echo "*** µMatrix(Opera): Package done."
+rm   -rf $DES/_locales
+mkdir -p $DES/_locales
+cp -R ./src/_locales/de    $DES/_locales/
+cp -R ./src/_locales/en    $DES/_locales/
+cp -R ./src/_locales/es    $DES/_locales/
+cp -R ./src/_locales/fr    $DES/_locales/
+cp -R ./src/_locales/he    $DES/_locales/
+cp -R ./src/_locales/id    $DES/_locales/
+cp -R ./src/_locales/it    $DES/_locales/
+cp -R ./src/_locales/nl    $DES/_locales/
+cp -R ./src/_locales/pt_BR $DES/_locales/
+cp -R ./src/_locales/pt_PT $DES/_locales/
+cp -R ./src/_locales/tr    $DES/_locales/
+cp -R ./src/_locales/zh_TW $DES/_locales/
+
+echo "*** uMatrix.opera: Generating meta..."
+python3 tools/make-opera-meta.py        $DES/
+
+echo "*** uMatrix.opera: Package done."

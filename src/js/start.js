@@ -1,7 +1,7 @@
 /*******************************************************************************
 
-    µMatrix - a Chromium browser extension to black/white list requests.
-    Copyright (C) 2014 Raymond Hill
+    uMatrix - a browser extension to black/white list requests.
+    Copyright (C) 2014-present Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,174 +19,85 @@
     Home: https://github.com/gorhill/uMatrix
 */
 
-/* global µMatrix */
-
-// ORDER IS IMPORTANT
+'use strict';
 
 /******************************************************************************/
 
-// rhill 2013-11-24: bind behind-the-scene virtual tab/url manually, since the
-// normal way forbid binding behind the scene tab.
-// https://github.com/gorhill/httpswitchboard/issues/67
+(async ( ) => {
+    const µm = µMatrix;
 
-(function() {
-    var µm = µMatrix;
-    var pageStore = µm.createPageStore(µm.behindTheSceneURL);
-    µm.pageUrlToTabId[µm.behindTheSceneURL] = µm.behindTheSceneTabId;
-    µm.tabIdToPageUrl[µm.behindTheSceneTabId] = µm.behindTheSceneURL;
-    pageStore.boundCount += 1;
-})();
+    await Promise.all([
+        µm.loadRawSettings(),
+        µm.loadUserSettings(),
+    ]);
+    log.info(`User settings ready ${Date.now()-vAPI.T0} ms after launch`);
 
-/******************************************************************************/
+    const cacheBackend = await µm.cacheStorage.select(
+        µm.rawSettings.cacheStorageAPI
+    );
+    log.info(`Backend storage for cache will be ${cacheBackend}`);
 
-µMatrix.turnOn();
-
-/******************************************************************************/
-
-function onTabCreated(tab) {
-    // Can this happen?
-    if ( tab.id < 0 || !tab.url || tab.url === '' ) {
-        return;
+    const shouldWASM =
+        vAPI.canWASM === true &&
+        µm.rawSettings.disableWebAssembly !== true;
+    if ( shouldWASM ) {
+        await Promise.all([
+            µm.HNTrieContainer.enableWASM(),
+            self.publicSuffixList.enableWASM(),
+        ]);
+        log.info(`WASM modules ready ${Date.now()-vAPI.T0} ms after launch`);
     }
 
-    // https://github.com/gorhill/httpswitchboard/issues/303
-    // This takes care of rebinding the tab to the proper page store
-    // when the user navigate back in his history.
-    µMatrix.bindTabToPageStats(tab.id, tab.url);
-}
+    await µm.loadPublicSuffixList(),
+    log.info(`PSL ready ${Date.now()-vAPI.T0} ms after launch`);
 
-chrome.tabs.onCreated.addListener(onTabCreated);
-
-/******************************************************************************/
-
-function onTabUpdated(tabId, changeInfo, tab) {
-    // Can this happen?
-    if ( !tab.url || tab.url === '' ) {
-        return;
-    }
-
-    // https://github.com/gorhill/httpswitchboard/issues/303
-    // This takes care of rebinding the tab to the proper page store
-    // when the user navigate back in his history.
-    if ( changeInfo.url ) {
-        µMatrix.bindTabToPageStats(tabId, tab.url, 'pageUpdated');
-    }
-
-    // rhill 2013-12-23: Compute state after whole page is loaded. This is
-    // better than building a state snapshot dynamically when requests are
-    // recorded, because here we are not afflicted by the browser cache
-    // mechanism.
-
-    // rhill 2014-03-05: Use tab id instead of page URL: this allows a
-    // blocked page using µMatrix internal data URI-based page to be properly
-    // unblocked when user un-blacklist the hostname.
-    // https://github.com/gorhill/httpswitchboard/issues/198
-    if ( changeInfo.status === 'complete' ) {
-        var pageStats = µMatrix.pageStatsFromTabId(tabId);
-        if ( pageStats ) {
-            pageStats.state = µMatrix.computeTabState(tabId);
+    {
+        let trieDetails;
+        try {
+            trieDetails = JSON.parse(
+                vAPI.localStorage.getItem('ubiquitousBlacklist.trieDetails')
+            );
+        } catch(ex) {
+        }
+        µm.ubiquitousBlacklist = new µm.HNTrieContainer(trieDetails);
+        if ( shouldWASM ) {
+            µm.ubiquitousBlacklist.initWASM();
         }
     }
-}
+    log.info(`Ubiquitous block rules container ready ${Date.now()-vAPI.T0} ms after launch`);
 
-chrome.tabs.onUpdated.addListener(onTabUpdated);
+    await Promise.all([
+        µm.loadMatrix(),
+        µm.loadHostsFiles(),
+    ]);
+    log.info(`All rules ready ${Date.now()-vAPI.T0} ms after launch`);
 
-/******************************************************************************/
-
-function onTabRemoved(tabId) {
-    // Can this happen?
-    if ( tabId < 0 ) {
-        return;
+    {
+        const pageStore =
+            µm.pageStoreFactory(µm.tabContextManager.mustLookup(vAPI.noTabId));
+        pageStore.title = vAPI.i18n('statsPageDetailedBehindTheScenePage');
+        µm.pageStores.set(vAPI.noTabId, pageStore);
     }
 
-    µMatrix.unbindTabFromPageStats(tabId);
-}
-
-chrome.tabs.onRemoved.addListener(onTabRemoved);
-
-/******************************************************************************/
-
-// Bind a top URL to a specific tab
-
-function onBeforeNavigateCallback(details) {
-    // Don't bind to a subframe
-    if ( details.frameId > 0 ) {
-        return;
+    const tabs = await vAPI.tabs.query({ url: '<all_urls>' });
+    if ( Array.isArray(tabs) ) {
+        for ( const tab of tabs ) {
+            µm.tabContextManager.push(tab.id, tab.url, 'newURL');
+            µm.bindTabToPageStats(tab.id);
+            µm.setPageStoreTitle(tab.id, tab.title);
+        }
     }
-    // console.debug('onBeforeNavigateCallback() > "%s" = %o', details.url, details);
+    log.info(`Tab stores ready ${Date.now()-vAPI.T0} ms after launch`);
 
-    µMatrix.bindTabToPageStats(details.tabId, details.url);
-}
+    µm.webRequest.start();
 
-chrome.webNavigation.onBeforeNavigate.addListener(onBeforeNavigateCallback);
+    µm.loadRecipes();
 
-/******************************************************************************/
-
-// Browser data jobs
-
-(function() {
-    var jobCallback = function() {
-        var µm = µMatrix;
-        if ( !µm.userSettings.clearBrowserCache ) {
-            return;
-        }
-        µm.clearBrowserCacheCycle -= 15;
-        if ( µm.clearBrowserCacheCycle > 0 ) {
-            return;
-        }
-        µm.clearBrowserCacheCycle = µm.userSettings.clearBrowserCacheAfter;
-        µm.browserCacheClearedCounter++;
-        chrome.browsingData.removeCache({ since: 0 });
-        // console.debug('clearBrowserCacheCallback()> chrome.browsingData.removeCache() called');
-    };
-
-    µMatrix.asyncJobs.add('clearBrowserCache', null, jobCallback, 15 * 60 * 1000, true);
-})();
-
-/******************************************************************************/
-
-// Automatic update of non-user assets
-// https://github.com/gorhill/httpswitchboard/issues/334
-
-(function() {
-    var µm = µMatrix;
-
-    var jobDone = function(details) {
-        if ( details.changedCount === 0 ) {
-            return;
-        }
-        µm.loadUpdatableAssets();
-    };
-
-    var jobCallback = function() {
-        µm.assetUpdater.update(null, jobDone);
-    };
-
-    µm.asyncJobs.add('autoUpdateAssets', null, jobCallback, µm.updateAssetsEvery, true);
-})();
-
-/******************************************************************************/
-
-// Load everything
-
-(function() {
-    var µm = µMatrix;
-
-    // This needs to be done when the PSL is loaded
-    var bindTabs = function(tabs) {
-        var i = tabs.length;
-        // console.debug('start.js > binding %d tabs', i);
-        while ( i-- ) {
-            µm.bindTabToPageStats(tabs[i].id, tabs[i].url);
-        }
-        µm.webRequest.start();
-    };
-
-    var queryTabs = function() {
-        chrome.tabs.query({ url: '<all_urls>' }, bindTabs);
-    };
-
-    µm.load(queryTabs);
+    // https://github.com/uBlockOrigin/uMatrix-issues/issues/63
+    //   Ensure user settings are fully loaded before launching the
+    //   asset updater.
+    µm.assets.addObserver(µm.assetObserver.bind(µm));
+    µm.scheduleAssetUpdater(µm.userSettings.autoUpdate ? 7 * 60 * 1000 : 0);
 })();
 
 /******************************************************************************/
