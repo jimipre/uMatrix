@@ -1,6 +1,10 @@
-## uMatrix<br>[<img src="https://travis-ci.org/gorhill/uMatrix.svg?branch=master" height="16">](https://travis-ci.org/gorhill/uMatrix)
+## weMatrix
 
-Definitely for advanced users.
+A fork of the discontinued uMatrix browser extension.
+
+***
+
+The point of this fork is to steadily maintain uMatrix by fixing bugs and implementing modest feature requests.
 
 ***
 
@@ -10,7 +14,7 @@ Forked and refactored from [HTTP Switchboard](https://github.com/gorhill/httpswi
 
 Install [manually](https://github.com/gorhill/uMatrix/blob/master/doc/README.md) the [latest release](https://github.com/gorhill/uMatrix/releases), or install from:
 - [Firefox AMO](https://addons.mozilla.org/firefox/addon/umatrix/)
-    - To help find issues with ongoing development: [uMatrix dev build in _Releases_](https://github.com/gorhill/uMatrix/releases) (click the latest `uMatrix.webext.signed.xpi` link of the last pre-resease.)
+    - To help find issues with ongoing development: [uMatrix dev build in _Releases_](https://github.com/gorhill/uMatrix/releases) (click the latest `uMatrix.webext.signed.xpi` link of the last pre-release.)
 - [Chrome store](https://chrome.google.com/webstore/detail/µmatrix/ogfcmafjalglgifnmanfmnieipoejdcf)
     - To help find issues with ongoing development: [uMatrix dev build in Chrome store](https://chrome.google.com/webstore/detail/umatrix-dev-build/eckgcipdkhcfghnmincccnhpdmnbefki)
 - [Opera store](https://addons.opera.com/en-gb/extensions/details/umatrix/)
